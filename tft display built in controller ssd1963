@@ -1,0 +1,3 @@
+tft display built in controller ssd1963
+using pic 32mx795l512h
+proto tft
