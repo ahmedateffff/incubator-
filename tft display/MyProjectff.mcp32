@@ -1,12 +1,12 @@
 [DEVICE]
 Name=P32MX795F512H
-Clock=20000000
+Clock=80000000
 [MEMORY_MODEL]
 Value=0
 [BUILD_TYPE]
 Value=0
 [ACTIVE_TAB]
-Value=MyProjectff.c
+Value=ssd1963_8bit_library.h
 [USE_EEPROM]
 Value=0
 [USE_HEAP]
@@ -20,33 +20,32 @@ Count=4
 File0=MyProjectff.c
 File1=tahoma_24pt_Font.c
 File2=tahoma_30pt_Font.c
-File3=..\desk_top\panels\led hours.c
 [BINARIES]
 Count=0
 [IMAGES]
 Count=0
 ActiveImageIndex=-1
 [OPENED_FILES]
-Count=2
+Count=3
 File0=Page_Def.h
 File1=MyProjectff.c
+File2=ssd1963_8bit_library.h
 [EEPROM]
 Count=0
 [ACTIVE_COMMENTS_FILES]
 Count=0
 [OTHER_FILES]
 Count=1
-File0=..\desk_top\panels\serial panel.c.ini
 [SEARCH_PATH]
-Count=4
+Count=6
 Path0=C:\Users\Public\Documents\Mikroelektronika\mikroC PRO for PIC32\Defs\
 Path1=C:\Users\Public\Documents\Mikroelektronika\mikroC PRO for PIC32\Uses\
-Path2=C:\Users\ahmed\Desktop\New folder\
-Path3=C:\Users\ahmed\Desktop\desk_top\panels\
+Path2=C:\Users\ahmed\Desktop\incubator\tft display\
+Path4=C:\Users\ahmed\Desktop\desk_top\panels\
 [HEADER_PATH]
-Count=2
+Count=3
 Path0=F:\desk\wrk\TFT 5 inch\vtft test 18f pages 2-4-1018\Test_4-2018\
-Path1=C:\Users\ahmed\Desktop\New folder\
+Path2=C:\Users\ahmed\Desktop\incubator\tft display\
 [HEADERS]
 Count=3
 File0=font.h

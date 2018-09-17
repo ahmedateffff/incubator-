@@ -57,9 +57,7 @@ const unsigned int tahoma_24pt_FontDescriptors[];
   * @param  index : The values can be in [0x00 - 0xFF] range
   */
 void TFT_Set_Index(unsigned int  index) {
-  /*TFT_RS = 0;
-  TFT_DataPort = index;
-  TFT_Write_Strobe();*/
+
   Delay_1us(); Delay_1us();
   TFT_CS = 0;
   TFT_RD = 1;

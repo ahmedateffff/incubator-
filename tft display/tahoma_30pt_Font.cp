@@ -1,4 +1,4 @@
-#line 1 "C:/Users/ahmed/Desktop/New folder/tahoma_30pt_Font.c"
+#line 1 "C:/Users/ahmed/Desktop/incubator/tft display/tahoma_30pt_Font.c"
 
 
 
@@ -4019,7 +4019,7 @@ const unsigned int tahoma_30pt_FontDescriptors[] =
  35, 11200,
  35, 11400,
  35, 11600,
-#line 4022 "C:/Users/ahmed/Desktop/New folder/tahoma_30pt_Font.c"
+#line 4022 "C:/Users/ahmed/Desktop/incubator/tft display/tahoma_30pt_Font.c"
  35, 11800,
  35, 12200,
  35, 12400,

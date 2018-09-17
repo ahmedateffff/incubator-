@@ -1,4 +1,4 @@
-#line 1 "C:/Users/ahmed/Desktop/New folder/tahoma_24pt_Font.c"
+#line 1 "C:/Users/ahmed/Desktop/incubator/tft display/tahoma_24pt_Font.c"
 
 
 
@@ -3267,7 +3267,7 @@ const unsigned int tahoma_24pt_FontDescriptors[] =
  19, 4256,
  15, 4352,
  8, 4416,
-#line 3270 "C:/Users/ahmed/Desktop/New folder/tahoma_24pt_Font.c"
+#line 3270 "C:/Users/ahmed/Desktop/incubator/tft display/tahoma_24pt_Font.c"
  12, 4448,
  19, 4544,
  17, 4640,
