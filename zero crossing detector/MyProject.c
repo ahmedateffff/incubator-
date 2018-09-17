@@ -33,7 +33,7 @@ WPUC=0X00;
 OPTION_REG.nWPUEN=0x01;
 RC1_bit = 0 ;
 zcd_initialize();
-portc=0xff;
+portc=0xff  ;
 porta=0xff;
 //porta.f5=1;
 
