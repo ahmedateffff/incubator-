@@ -1,32 +1,44 @@
-0	1	mikroCPIC32.exe -MSF -DBG -pP32MX795F512H -C -Y -DL -EBASE 0x9FC01000 -INTDEF MV_SRS7_IS32 -O11111104 -fo80 -N"C:\Users\ahmed\Desktop\incubator\tft display\MyProjectff.mcp32" -SP"C:\Users\Public\Documents\Mikroelektronika\mikroC PRO for PIC32\Defs\" -SP"C:\Users\Public\Documents\Mikroelektronika\mikroC PRO for PIC32\Uses\" -SP"C:\Users\ahmed\Desktop\incubator\tft display\" -SP"C:\Users\ahmed\Desktop\desk_top\panels\" -IP"F:\desk\wrk\TFT 5 inch\vtft test 18f pages 2-4-1018\Test_4-2018\" -IP"C:\Users\ahmed\Desktop\incubator\tft display\" "MyProjectff.c" "tahoma_24pt_Font.c" "tahoma_30pt_Font.c" "__Lib_CP0.emcl" "__Lib_Math.emcl" "__Lib_MathDouble.emcl" "__Lib_System.emcl" "__Lib_SoftResetDma.emcl" "__Lib_Delays.emcl" "__Lib_CType.emcl" "__Lib_CString.emcl" "__Lib_CStdlib.emcl" "__Lib_CMath.emcl" "__Lib_MemManager.emcl" "__Lib_Conversions.emcl" "__Lib_Sprintf.emcl" "__Lib_PrintOut.emcl" "__Lib_Sprinti.emcl" "__Lib_Sprintl.emcl" "__Lib_Button.emcl" "__Lib_Keypad4x4.emcl" "__Lib_Manchester.emcl" "__Lib_OneWire.emcl" "__Lib_PS2.emcl" "__Lib_Sound.emcl" "__Lib_SoftI2C.emcl" "__Lib_SoftSPI.emcl" "__Lib_SoftUART.emcl" "__Lib_ADC.emcl" "__Lib_ETHERNET.emcl" "__Lib_FLASH.emcl" "__Lib_I2C_1345.emcl" "__Lib_PWM.emcl" "__Lib_SPI_234.emcl" "__Lib_CAN_12.emcl" "__Lib_PortExpander.emcl" "__Lib_CANSPI.emcl" "__Lib_CF.emcl" "__Lib_CFFat16.emcl" "__Lib_GlcdFonts.emcl" "__Lib_Glcd.emcl" "__Lib_LcdConsts.emcl" "__Lib_Lcd.emcl" "__Lib_Mmc.emcl" "__Lib_MmcFat16.emcl" "__Lib_MmcFat16Constants.emcl" "__Lib_RS485.emcl" "__Lib_S1D13700.emcl" "__Lib_SPIGlcd.emcl" "__Lib_SPILcd.emcl" "__Lib_SPILcd8.emcl" "__Lib_SPIT6963C.emcl" "__Lib_EthEnc24j600.emcl" "__Lib_EthEnc28j60.emcl" "__Lib_BitReverseComplex.emcl" "__Lib_FFT.emcl" "__Lib_FirRadix.emcl" "__Lib_IirRadix.emcl" "__Lib_Matrices.emcl" "__Lib_Q15.emcl" "__Lib_Q31.emcl"	 
+0	1	mikroCPIC32.exe -MSF -DBG -pP32MX795F512H -C -Y -DL -EBASE 0x9FC01000 -INTDEF MV_SRS7_IS32 -O11111104 -fo80 -N"C:\Users\ahmed\Desktop\incubator\tft display\MyProjectff.mcp32" -SP"C:\Users\Public\Documents\Mikroelektronika\mikroC PRO for PIC32\Defs\" -SP"C:\Users\Public\Documents\Mikroelektronika\mikroC PRO for PIC32\Uses\" -SP"C:\Users\ahmed\Desktop\incubator\tft display\" -SP"C:\Users\ahmed\Desktop\desk_top\panels\" -SP"C:\Users\ahmed\Desktop\" -IP"F:\desk\wrk\TFT 5 inch\vtft test 18f pages 2-4-1018\Test_4-2018\" -IP"C:\Users\ahmed\Desktop\incubator\tft display\" "MyProjectff.c" "tahoma_24pt_Font.c" "tahoma_30pt_Font.c" "arduino.c" "MEGEG.c" "resoures.c" "__Lib_CP0.emcl" "__Lib_Math.emcl" "__Lib_MathDouble.emcl" "__Lib_System.emcl" "__Lib_SoftResetDma.emcl" "__Lib_Delays.emcl" "__Lib_CType.emcl" "__Lib_CString.emcl" "__Lib_CStdlib.emcl" "__Lib_CMath.emcl" "__Lib_MemManager.emcl" "__Lib_Conversions.emcl" "__Lib_Sprintf.emcl" "__Lib_PrintOut.emcl" "__Lib_Sprinti.emcl" "__Lib_Sprintl.emcl" "__Lib_Button.emcl" "__Lib_Keypad4x4.emcl" "__Lib_Manchester.emcl" "__Lib_OneWire.emcl" "__Lib_PS2.emcl" "__Lib_Sound.emcl" "__Lib_SoftI2C.emcl" "__Lib_SoftSPI.emcl" "__Lib_SoftUART.emcl" "__Lib_ADC.emcl" "__Lib_ETHERNET.emcl" "__Lib_FLASH.emcl" "__Lib_I2C_1345.emcl" "__Lib_PWM.emcl" "__Lib_SPI_234.emcl" "__Lib_CAN_12.emcl" "__Lib_PortExpander.emcl" "__Lib_CANSPI.emcl" "__Lib_CF.emcl" "__Lib_CFFat16.emcl" "__Lib_GlcdFonts.emcl" "__Lib_Glcd.emcl" "__Lib_LcdConsts.emcl" "__Lib_Lcd.emcl" "__Lib_Mmc.emcl" "__Lib_MmcFat16.emcl" "__Lib_MmcFat16Constants.emcl" "__Lib_RS485.emcl" "__Lib_S1D13700.emcl" "__Lib_SPIGlcd.emcl" "__Lib_SPILcd.emcl" "__Lib_SPILcd8.emcl" "__Lib_SPIT6963C.emcl" "__Lib_EthEnc24j600.emcl" "__Lib_EthEnc28j60.emcl" "__Lib_BitReverseComplex.emcl" "__Lib_FFT.emcl" "__Lib_FirRadix.emcl" "__Lib_IirRadix.emcl" "__Lib_Matrices.emcl" "__Lib_Q15.emcl" "__Lib_Q31.emcl"	 
 diagnostics: 0	122	Compilation Started	MyProjectff.c
-hint: 377	1163	Variable 'data_index' has been declared, but not used	ssd1963_8bit_library.h
-hint: 378	1163	Variable 'data_Descr_index' has been declared, but not used	ssd1963_8bit_library.h
-hint: 424	1163	Variable 'hight' has been declared, but not used	ssd1963_8bit_library.h
-hint: 424	1163	Variable 'i' has been declared, but not used	ssd1963_8bit_library.h
-hint: 424	1163	Variable 'j' has been declared, but not used	ssd1963_8bit_library.h
-hint: 473	1163	Variable 'data_index' has been declared, but not used	ssd1963_8bit_library.h
-hint: 474	1163	Variable 'data_Descr_index' has been declared, but not used	ssd1963_8bit_library.h
-hint: 519	1163	Variable 'hight' has been declared, but not used	ssd1963_8bit_library.h
-hint: 544	1163	Variable 'hight' has been declared, but not used	ssd1963_8bit_library.h
-diagnostics: 171	123	Compiled Successfully	MyProjectff.c
-hint: 103	1164	Variable 'value' has been eliminated by optimizer	MyProjectff.c
-hint: 375	1164	Variable 'dataBuf' has been eliminated by optimizer	MyProjectff.c
-hint: 424	1164	Variable 'alpha' has been eliminated by optimizer	MyProjectff.c
-hint: 424	1164	Variable 'counter' has been eliminated by optimizer	MyProjectff.c
-hint: 471	1164	Variable 'dataBuf' has been eliminated by optimizer	MyProjectff.c
-hint: 519	1164	Variable 'width' has been eliminated by optimizer	MyProjectff.c
-hint: 544	1164	Variable 'width' has been eliminated by optimizer	MyProjectff.c
+hint: 379	1163	Variable 'data_index' has been declared, but not used	ssd1963_8bit_library.h
+hint: 380	1163	Variable 'data_Descr_index' has been declared, but not used	ssd1963_8bit_library.h
+hint: 426	1163	Variable 'hight' has been declared, but not used	ssd1963_8bit_library.h
+hint: 426	1163	Variable 'i' has been declared, but not used	ssd1963_8bit_library.h
+hint: 426	1163	Variable 'j' has been declared, but not used	ssd1963_8bit_library.h
+hint: 475	1163	Variable 'data_index' has been declared, but not used	ssd1963_8bit_library.h
+hint: 476	1163	Variable 'data_Descr_index' has been declared, but not used	ssd1963_8bit_library.h
+hint: 521	1163	Variable 'hight' has been declared, but not used	ssd1963_8bit_library.h
+hint: 546	1163	Variable 'hight' has been declared, but not used	ssd1963_8bit_library.h
+warning: 351	1508	Implicit conversion of int to ptr	page_def.h
+warning: 374	1508	Implicit conversion of int to ptr	page_def.h
+warning: 397	1508	Implicit conversion of int to ptr	page_def.h
+warning: 420	1508	Implicit conversion of int to ptr	page_def.h
+warning: 443	1508	Implicit conversion of int to ptr	page_def.h
+diagnostics: 54	123	Compiled Successfully	MyProjectff.c
+hint: 105	1164	Variable 'value' has been eliminated by optimizer	MyProjectff.c
+hint: 377	1164	Variable 'dataBuf' has been eliminated by optimizer	MyProjectff.c
+hint: 426	1164	Variable 'alpha' has been eliminated by optimizer	MyProjectff.c
+hint: 426	1164	Variable 'counter' has been eliminated by optimizer	MyProjectff.c
+hint: 473	1164	Variable 'dataBuf' has been eliminated by optimizer	MyProjectff.c
+hint: 521	1164	Variable 'width' has been eliminated by optimizer	MyProjectff.c
+hint: 546	1164	Variable 'width' has been eliminated by optimizer	MyProjectff.c
+hint: 506	1164	Variable 'iii' has been eliminated by optimizer	MyProjectff.c
 diagnostics: 0	122	Compilation Started	tahoma_24pt_Font.c
 diagnostics: 3304	123	Compiled Successfully	tahoma_24pt_Font.c
 diagnostics: 0	122	Compilation Started	tahoma_30pt_Font.c
 diagnostics: 4056	123	Compiled Successfully	tahoma_30pt_Font.c
-diagnostics: 0	127	All files Compiled in 532 ms	 
-hint: 0	1144	Used RX: 14 (44%)   Free RX: 18 (56%)	Used RX: 14 (44%)   Free RX: 18 (56%)
-hint: 0	1144	Static RAM (bytes): 265   Dynamic RAM (bytes): 130801	Static RAM (bytes): 265   Dynamic RAM (bytes): 130801
-hint: 0	1144	Used ROM (bytes): 13737 (3%)  Free ROM (bytes): 510551 (97%)	Used ROM (bytes): 13737 (3%)  Free ROM (bytes): 510551 (97%)
+diagnostics: 0	122	Compilation Started	arduino.c
+diagnostics: 290	123	Compiled Successfully	arduino.c
+diagnostics: 0	122	Compilation Started	MEGEG.c
+diagnostics: 1320	123	Compiled Successfully	MEGEG.c
+diagnostics: 0	122	Compilation Started	resoures.c
+diagnostics: 400	123	Compiled Successfully	resoures.c
+diagnostics: 0	127	All files Compiled in 688 ms	 
+hint: 0	1144	Used RX: 15 (47%)   Free RX: 17 (53%)	Used RX: 15 (47%)   Free RX: 17 (53%)
+hint: 0	1144	Static RAM (bytes): 628   Dynamic RAM (bytes): 130441	Static RAM (bytes): 628   Dynamic RAM (bytes): 130441
+hint: 0	1144	Used ROM (bytes): 35802 (7%)  Free ROM (bytes): 488486 (93%)	Used ROM (bytes): 35802 (7%)  Free ROM (bytes): 488486 (93%)
 hint: 0	1144	Used BOOTROM (bytes): 320 (3%)  Free BOOTROM (bytes): 11953 (97%)	Used BOOTROM (bytes): 320 (3%)  Free BOOTROM (bytes): 11953 (97%)
 diagnostics: 0	125	Project Linked Successfully	MyProjectff.mcp32
-diagnostics: 0	128	Linked in 1437 ms	 
-diagnostics: 0	129	Project 'MyProjectff.mcp32' completed: 2297 ms	 
-diagnostics: 0	103	Finished successfully: 19 ”» „»— 2018, 10:05:44	MyProjectff.mcp32
+diagnostics: 0	128	Linked in 1015 ms	 
+diagnostics: 0	129	Project 'MyProjectff.mcp32' completed: 2093 ms	 
+diagnostics: 0	103	Finished successfully: 19 ”» „»— 2018, 15:42:05	MyProjectff.mcp32

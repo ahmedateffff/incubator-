@@ -6,40 +6,40 @@ main
 		TFT_Write_Command
 			Delay_1us
 		Delay_50us
-	TFT_FULL_ON
+	InitializeObjects
+	Set_BackLight
+		TFT_Set_Index
+		TFT_Write_Command
+	img_load_raw_image_mem
 		WindowSet
 			TFT_Set_Index
 			TFT_Write_Command
 		TFT_Set_Index
 		TFT_Write_Data
 			TFT_Write_Command
-	Set_BackLight
-		TFT_Set_Index
-		TFT_Write_Command
-	InitializeObjects
-	DrawLabel
-		TFT_Set_Font
-		Display_String
-			Display_char
-				WindowSet
-				TFT_Set_Index
-				TFT_Write_Data
-	DrawBox
-		Draw_rectangle
-			Draw_Line_V
-				Draw_Line
-					__CC2DW
-					WindowSet
-					TFT_Set_Index
-					TFT_Write_Data
-			Draw_Line_H
-				Draw_Line
-		TFT_Rectangle
+	display_page
+		TFT_FULL_ON
 			WindowSet
 			TFT_Set_Index
 			TFT_Write_Data
-	DrawBox2
-		Draw_rectangle
-		TFT_Rectangle
-	DrawLine2
-		Draw_Line
+		DrawBox
+			Draw_rectangle
+				Draw_Line_V
+					Draw_Line
+						__CC2DW
+						WindowSet
+						TFT_Set_Index
+						TFT_Write_Data
+				Draw_Line_H
+					Draw_Line
+			TFT_Rectangle
+				WindowSet
+				TFT_Set_Index
+				TFT_Write_Data
+		DrawLabel
+			TFT_Set_Font
+			Display_String
+				Display_char
+					WindowSet
+					TFT_Set_Index
+					TFT_Write_Data

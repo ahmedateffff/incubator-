@@ -57,7 +57,9 @@ const unsigned int tahoma_24pt_FontDescriptors[];
   * @param  index : The values can be in [0x00 - 0xFF] range
   */
 void TFT_Set_Index(unsigned int  index) {
-
+  /*TFT_RS = 0;
+  TFT_DataPort = index;
+  TFT_Write_Strobe();*/
   Delay_1us(); Delay_1us();
   TFT_CS = 0;
   TFT_RD = 1;
@@ -739,26 +741,20 @@ unsigned int x2,y2;
 
  }
  
-void LCD_DispPic_FullSize(const unsigned char *str)
-{
+void img_load_raw_image_mem(int x11, int y11, int imgX, int imgY, const unsigned char*img)  {
 
-        unsigned long temp;
-        ColorTypeDef color;
-
-        WindowSet(0,0,200,500);
-        TFT_Write_Command(0x2C);
-
-        TFT_CS = 0;
-
-        for (temp = 2; temp < ((200+1)*(500+1))+2; temp++)
-        {
-                color.U8[1] =*(unsigned short *)(&str[ 2 * temp]);
-                color.U8[0]=*(unsigned short *)(&str[ 2 * temp+1]);
-                //DataToWrite(i);
-
-                TFT_Write_Data(color.U16);
-        }
-    TFT_CS = 1;
-
-//==============================
-}
+          unsigned int y,x, dataa;
+          WindowSet(x11, (imgX + x11) -1, y11, (imgY + y11)-1);
+          TFT_Set_Index(0x2c);
+          
+         for ( y = 0; y < imgY; y++) {
+           for (x = 0; x < imgX; x++){
+            // TFT_Write_Data(0XFFFF);
+             dataa = img[(imgX*2*y)+2*x] ;
+             dataa = dataa << 8 ;
+             dataa = dataa + img[(imgX*2*y)+(2*x+1)] ;
+                 TFT_Write_Data(dataa);
+             // TFT_Write_Data(img[(imgx*y)+ x]);
+            }
+          }
+      }
