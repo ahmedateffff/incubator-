@@ -45,7 +45,7 @@ const unsigned short tahoma_24pt_Font[];
 const unsigned int tahoma_24pt_FontDescriptors[];
 #line 59 "c:/users/ahmed/desktop/incubator/tft display/ssd1963_8bit_library.h"
 void TFT_Set_Index(unsigned int index) {
-#line 63 "c:/users/ahmed/desktop/incubator/tft display/ssd1963_8bit_library.h"
+
  Delay_1us(); Delay_1us();
  TFT_CS = 0;
  TFT_RD = 1;
@@ -57,9 +57,9 @@ void TFT_Set_Index(unsigned int index) {
  TFT_WR = 1;
  TFT_CS = 1;
 }
-#line 79 "c:/users/ahmed/desktop/incubator/tft display/ssd1963_8bit_library.h"
+#line 77 "c:/users/ahmed/desktop/incubator/tft display/ssd1963_8bit_library.h"
 void TFT_Write_Command(unsigned int cmd) {
-#line 83 "c:/users/ahmed/desktop/incubator/tft display/ssd1963_8bit_library.h"
+#line 81 "c:/users/ahmed/desktop/incubator/tft display/ssd1963_8bit_library.h"
  TFT_CS = 0;
  TFT_RD = 1;
  TFT_RS = 1;
@@ -70,7 +70,7 @@ void TFT_Write_Command(unsigned int cmd) {
  TFT_CS = 1;
  Delay_1us();
 }
-#line 104 "c:/users/ahmed/desktop/incubator/tft display/ssd1963_8bit_library.h"
+#line 102 "c:/users/ahmed/desktop/incubator/tft display/ssd1963_8bit_library.h"
 unsigned int RGB565_converter(unsigned char r, unsigned char g, unsigned char b)
 { unsigned int value ;
  value = (((31*(r+4))/255)<<11) |
@@ -80,7 +80,7 @@ unsigned int RGB565_converter(unsigned char r, unsigned char g, unsigned char b)
 }
 
 void TFT_Write_Data(unsigned int color) {
-#line 123 "c:/users/ahmed/desktop/incubator/tft display/ssd1963_8bit_library.h"
+#line 121 "c:/users/ahmed/desktop/incubator/tft display/ssd1963_8bit_library.h"
  TFT_Write_Command(color);
 
 }
@@ -98,15 +98,15 @@ TFT_RST = 0;
  TFT_Set_Index(0x01);
 
  Delay_ms(1);
-#line 147 "c:/users/ahmed/desktop/incubator/tft display/ssd1963_8bit_library.h"
+#line 145 "c:/users/ahmed/desktop/incubator/tft display/ssd1963_8bit_library.h"
  TFT_Set_Index(0x0A);
 TFT_Write_Command(0x1C);
-#line 154 "c:/users/ahmed/desktop/incubator/tft display/ssd1963_8bit_library.h"
+#line 152 "c:/users/ahmed/desktop/incubator/tft display/ssd1963_8bit_library.h"
 TFT_Set_Index(0xE2);
 TFT_Write_Command(60);
 TFT_Write_Command(5);
 TFT_Write_Command(0x54);
-#line 163 "c:/users/ahmed/desktop/incubator/tft display/ssd1963_8bit_library.h"
+#line 161 "c:/users/ahmed/desktop/incubator/tft display/ssd1963_8bit_library.h"
  TFT_Set_Index(0xe0);
 TFT_Write_Command(0x01);
 Delay_50us(); Delay_50us();
@@ -125,7 +125,7 @@ TFT_Write_Command(0x03);
 
  TFT_Set_Index(0xF0);
  TFT_Write_Command(0x03);
-#line 189 "c:/users/ahmed/desktop/incubator/tft display/ssd1963_8bit_library.h"
+#line 187 "c:/users/ahmed/desktop/incubator/tft display/ssd1963_8bit_library.h"
 TFT_Set_Index(0xe6);
 TFT_Write_Command(0x04);
 TFT_Write_Command(0x70);
@@ -234,7 +234,7 @@ void TFT_Rectangle(unsigned int x0, unsigned int y0, unsigned int W, unsigned in
  }
 
 }
-#line 358 "c:/users/ahmed/desktop/incubator/tft display/ssd1963_8bit_library.h"
+#line 356 "c:/users/ahmed/desktop/incubator/tft display/ssd1963_8bit_library.h"
 void TFT_Set_Font(const unsigned short *Font, const unsigned int *Font_Descrip, unsigned long dat)
 {
  Font_Pointer = Font ;
@@ -306,7 +306,7 @@ void Display_numbers(unsigned char *Data_Pointer, unsigned int x0, unsigned int 
  int alpha, width, hight, counter = 0,i,j ;
 
  Src_Pointer=Data_Pointer;
-#line 449 "c:/users/ahmed/desktop/incubator/tft display/ssd1963_8bit_library.h"
+#line 447 "c:/users/ahmed/desktop/incubator/tft display/ssd1963_8bit_library.h"
  while(1)
  {
  if(*Src_Pointer != 32) {
@@ -506,7 +506,7 @@ void Display_String(unsigned char *Data_Pointer, unsigned int x0, unsigned int y
  }
  }
 }
-#line 662 "c:/users/ahmed/desktop/incubator/tft display/ssd1963_8bit_library.h"
+#line 660 "c:/users/ahmed/desktop/incubator/tft display/ssd1963_8bit_library.h"
 void Draw_Circle(signed int xc, signed int yc, signed int radius, unsigned char fill, unsigned int colour)
 {
  signed int a = 0x0000;
