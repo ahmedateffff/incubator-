@@ -7,7 +7,7 @@
 #define Rec_4 {400, 300, 200, 100}
 
 
-
+   #include"HAL_PIC32.h"
  # include "ssd1963_8bit_library.h"
 const code char Tahoma12x16_Regular[];
 const code char Tahoma11x13_Regular[];
@@ -509,20 +509,20 @@ void DrawImage(TImage *AImage){
    
           
           
-          while(Screen->BoxesCount != 0){
+   while(Screen->BoxesCount != 0){
              DrawBox(1 , *Screen->Boxes );
-             Screen->Boxes++;
+             *Screen->Boxes++;
              Screen->BoxesCount--;
             }
-           
-            while(Screen->LabelsCount != 0){
+
+     /*while(Screen->LabelsCount != 0){
      if(Screen->LabelsCount==3){Back_Color=Blue;}
 
         // DrawCircle(1 ,Screen->CirclesCount,*Screen->Circles);
          DrawLabel(*Screen->Labels);
          *Screen->Labels++;
          Screen->LabelsCount--;
-         }
+         }*/
          
          
   /*while(Screen->ImagesCount != 0){
@@ -534,3 +534,28 @@ void DrawImage(TImage *AImage){
       
 
      }
+void rotary_b_click(unsigned char count_rotary ){
+
+
+
+if(count_rotary==1){
+         TFT_Rectangle(Screen1_Boxes[1]->Left,Screen1_Boxes[1]->Top,  Screen1_Boxes[1]->Width,  Screen1_Boxes[1]->Height, White );
+        }
+        
+if(count_rotary==2){
+TFT_Rectangle(Screen1_Boxes[1]->Left,Screen1_Boxes[1]->Top,  Screen1_Boxes[1]->Width,  Screen1_Boxes[1]->Height, Blue );
+TFT_Rectangle(Screen1_Boxes[2]->Left,Screen1_Boxes[2]->Top,  Screen1_Boxes[2]->Width,  Screen1_Boxes[2]->Height, White );
+        count_rotary=0;}
+
+
+
+
+
+
+
+
+
+
+
+
+}

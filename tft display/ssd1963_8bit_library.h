@@ -33,7 +33,11 @@ sbit TFT_CS       at LATE2_bit;    //
 sbit TFT_RS       at LATC13_bit;    //  == D/C
 sbit TFT_RD       at LATE1_bit;    //
 sbit TFT_WR       at LATC14_bit;    //
-
+unsigned long Font_Color = 0 ;
+unsigned long Back_Color ;
+const unsigned short *Font_Pointer;
+unsigned short Tempo ;
+const unsigned int *Font_Description_Pointer ;
 
 #define TFT_Write_Strobe()  TFT_WR = 0; asm nop; TFT_WR = 1;
 
