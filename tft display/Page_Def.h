@@ -534,15 +534,15 @@ void DrawImage(TImage *AImage){
       
 
      }
-void rotary_b_click(unsigned char count_rotary ){
+void rotary_b_click(unsigned char count_rotary_b ){
 
 
 
-if(count_rotary==1){
+if(count_rotary_b==1){
          TFT_Rectangle(Screen1_Boxes[1]->Left,Screen1_Boxes[1]->Top,  Screen1_Boxes[1]->Width,  Screen1_Boxes[1]->Height, White );
         }
         
-if(count_rotary==2){
+if(count_rotary_b==2){
 TFT_Rectangle(Screen1_Boxes[1]->Left,Screen1_Boxes[1]->Top,  Screen1_Boxes[1]->Width,  Screen1_Boxes[1]->Height, Blue );
 TFT_Rectangle(Screen1_Boxes[2]->Left,Screen1_Boxes[2]->Top,  Screen1_Boxes[2]->Width,  Screen1_Boxes[2]->Height, White );
         count_rotary=0;}

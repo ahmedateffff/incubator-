@@ -1,5 +1,5 @@
 _INT1_interrupt:
-;hal_pic32.h,8 :: 		void INT1_interrupt() iv IVT_EXTERNAL_1 ilevel 1 ics ICS_AUTO {   //INC_B  ratory
+;hal_pic32.h,10 :: 		void INT1_interrupt() iv IVT_EXTERNAL_1 ilevel 3 ics ICS_AUTO {   //INC_B  ratory
 ADDIU	SP, SP, -16
 SW	R30, 12(SP)
 MFC0	R30, 12, 2
@@ -9,27 +9,51 @@ SW	R30, 4(SP)
 MFC0	R30, 12, 0
 SW	R30, 0(SP)
 INS	R30, R0, 1, 15
-ORI	R30, R0, 1024
+ORI	R30, R0, 3072
 MTC0	R30, 12, 0
-;hal_pic32.h,9 :: 		if(INT1IF_bit){
+;hal_pic32.h,11 :: 		if(INT1IF_bit){
 _LX	
 EXT	R2, R2, BitPos(INT1IF_bit+0), 1
-BNE	R2, R0, L__INT1_interrupt112
+BNE	R2, R0, L__INT1_interrupt120
 NOP	
 J	L_INT1_interrupt0
 NOP	
-L__INT1_interrupt112:
-;hal_pic32.h,11 :: 		INT1IF_bit = 0;
-LUI	R2, BitMask(INT1IF_bit+0)
-ORI	R2, R2, BitMask(INT1IF_bit+0)
-_SX	
-;hal_pic32.h,12 :: 		count_rotary--;
+L__INT1_interrupt120:
+;hal_pic32.h,12 :: 		if(RD10_bit==1){
+_LX	
+EXT	R2, R2, BitPos(RD10_bit+0), 1
+BNE	R2, 1, L__INT1_interrupt122
+NOP	
+J	L_INT1_interrupt1
+NOP	
+L__INT1_interrupt122:
+;hal_pic32.h,14 :: 		count_rotary=count_rotary+1;
+LBU	R2, Offset(_count_rotary+0)(GP)
+ADDIU	R2, R2, 1
+SB	R2, Offset(_count_rotary+0)(GP)
+;hal_pic32.h,15 :: 		}
+L_INT1_interrupt1:
+;hal_pic32.h,16 :: 		if(RD10_bit==0) {
+_LX	
+EXT	R2, R2, BitPos(RD10_bit+0), 1
+BEQ	R2, R0, L__INT1_interrupt123
+NOP	
+J	L_INT1_interrupt2
+NOP	
+L__INT1_interrupt123:
+;hal_pic32.h,18 :: 		count_rotary=count_rotary-1;
 LBU	R2, Offset(_count_rotary+0)(GP)
 ADDIU	R2, R2, -1
 SB	R2, Offset(_count_rotary+0)(GP)
-;hal_pic32.h,15 :: 		}                    // Reset INT2 flag
+;hal_pic32.h,19 :: 		}
+L_INT1_interrupt2:
+;hal_pic32.h,23 :: 		}
 L_INT1_interrupt0:
-;hal_pic32.h,16 :: 		}
+;hal_pic32.h,24 :: 		INT1IF_bit=0;
+LUI	R2, BitMask(INT1IF_bit+0)
+ORI	R2, R2, BitMask(INT1IF_bit+0)
+_SX	
+;hal_pic32.h,25 :: 		}
 L_end_INT1_interrupt:
 DI	
 EHB	
@@ -43,53 +67,8 @@ LW	R30, 12(SP)
 ADDIU	SP, SP, 16
 ERET	
 ; end of _INT1_interrupt
-_INT3_interrupt:
-;hal_pic32.h,17 :: 		void INT3_interrupt() iv IVT_EXTERNAL_3 ilevel 2 ics ICS_AUTO {  //INC_A  ratory
-ADDIU	SP, SP, -16
-SW	R30, 12(SP)
-MFC0	R30, 12, 2
-SW	R30, 8(SP)
-MFC0	R30, 14, 0
-SW	R30, 4(SP)
-MFC0	R30, 12, 0
-SW	R30, 0(SP)
-INS	R30, R0, 1, 15
-ORI	R30, R0, 2048
-MTC0	R30, 12, 0
-;hal_pic32.h,18 :: 		if(INT3IF_bit){
-_LX	
-EXT	R2, R2, BitPos(INT3IF_bit+0), 1
-BNE	R2, R0, L__INT3_interrupt115
-NOP	
-J	L_INT3_interrupt1
-NOP	
-L__INT3_interrupt115:
-;hal_pic32.h,20 :: 		INT3IF_bit = 0;
-LUI	R2, BitMask(INT3IF_bit+0)
-ORI	R2, R2, BitMask(INT3IF_bit+0)
-_SX	
-;hal_pic32.h,21 :: 		count_rotary++;
-LBU	R2, Offset(_count_rotary+0)(GP)
-ADDIU	R2, R2, 1
-SB	R2, Offset(_count_rotary+0)(GP)
-;hal_pic32.h,24 :: 		}                    // Reset INT2 flag
-L_INT3_interrupt1:
-;hal_pic32.h,25 :: 		}
-L_end_INT3_interrupt:
-DI	
-EHB	
-LW	R30, 8(SP)
-MTC0	R30, 12, 2
-LW	R30, 4(SP)
-MTC0	R30, 14, 0
-LW	R30, 0(SP)
-MTC0	R30, 12, 0
-LW	R30, 12(SP)
-ADDIU	SP, SP, 16
-ERET	
-; end of _INT3_interrupt
 _INT4_interrupt:
-;hal_pic32.h,26 :: 		void INT4_interrupt() iv IVT_EXTERNAL_4 ilevel 3 ics ICS_AUTO {   //sw ratory
+;hal_pic32.h,26 :: 		void INT4_interrupt() iv IVT_EXTERNAL_4 ilevel 1 ics ICS_AUTO {   //sw ratory
 ADDIU	SP, SP, -16
 SW	R30, 12(SP)
 MFC0	R30, 12, 2
@@ -99,16 +78,16 @@ SW	R30, 4(SP)
 MFC0	R30, 12, 0
 SW	R30, 0(SP)
 INS	R30, R0, 1, 15
-ORI	R30, R0, 3072
+ORI	R30, R0, 1024
 MTC0	R30, 12, 0
 ;hal_pic32.h,27 :: 		if(INT4IF_bit){
 _LX	
 EXT	R2, R2, BitPos(INT4IF_bit+0), 1
-BNE	R2, R0, L__INT4_interrupt118
+BNE	R2, R0, L__INT4_interrupt126
 NOP	
-J	L_INT4_interrupt2
+J	L_INT4_interrupt3
 NOP	
-L__INT4_interrupt118:
+L__INT4_interrupt126:
 ;hal_pic32.h,29 :: 		INT4IF_bit = 0;
 LUI	R2, BitMask(INT4IF_bit+0)
 ORI	R2, R2, BitMask(INT4IF_bit+0)
@@ -120,12 +99,8 @@ XORI	R3, R2, 1
 LBU	R2, Offset(PORTF+0)(GP)
 INS	R2, R3, 3, 1
 SB	R2, Offset(PORTF+0)(GP)
-;hal_pic32.h,31 :: 		count_rotary++;
-LBU	R2, Offset(_count_rotary+0)(GP)
-ADDIU	R2, R2, 1
-SB	R2, Offset(_count_rotary+0)(GP)
 ;hal_pic32.h,32 :: 		}                    // Reset INT2 flag
-L_INT4_interrupt2:
+L_INT4_interrupt3:
 ;hal_pic32.h,33 :: 		}
 L_end_INT4_interrupt:
 DI	
@@ -172,72 +147,71 @@ LUI	R2, BitMask(TRISC14_bit+0)
 ORI	R2, R2, BitMask(TRISC14_bit+0)
 _SX	
 ;hal_pic32.h,48 :: 		trisf.f3=0;
-ORI	R2, R0, 8
+ORI	R3, R0, 8
+SW	R3, Offset(TRISF+4)(GP)
+;hal_pic32.h,49 :: 		trisf.f6=0;
+ORI	R2, R0, 64
 SW	R2, Offset(TRISF+4)(GP)
-;hal_pic32.h,49 :: 		LATf.f3 = 0;
+;hal_pic32.h,50 :: 		LATf.f3 = 0;
+SW	R3, Offset(LATF+4)(GP)
+;hal_pic32.h,51 :: 		portf.f3 =0 ;
+SW	R3, Offset(PORTF+4)(GP)
+;hal_pic32.h,52 :: 		LATf.f6 = 0;
 SW	R2, Offset(LATF+4)(GP)
-;hal_pic32.h,50 :: 		portf.f3 =0 ;
+;hal_pic32.h,53 :: 		portf.f6 =0 ;
 SW	R2, Offset(PORTF+4)(GP)
-;hal_pic32.h,51 :: 		TRISd.f11 = 1;
+;hal_pic32.h,57 :: 		TRISd.f11 = 1;
 ORI	R2, R0, 2048
 SW	R2, Offset(TRISD+8)(GP)
-;hal_pic32.h,52 :: 		TRISd.f10 = 1;
+;hal_pic32.h,58 :: 		TRISd.f10 = 1;
 ORI	R2, R0, 1024
 SW	R2, Offset(TRISD+8)(GP)
-;hal_pic32.h,53 :: 		TRISd.f8 = 1;
+;hal_pic32.h,59 :: 		TRISd.f8 = 1;
 ORI	R2, R0, 256
 SW	R2, Offset(TRISD+8)(GP)
-;hal_pic32.h,55 :: 		INT4IP0_bit = 0;                   // Set INT2 interrupt
+;hal_pic32.h,61 :: 		INT4IP0_bit = 0;                   // Set INT2 interrupt
 LUI	R2, BitMask(INT4IP0_bit+0)
 ORI	R2, R2, BitMask(INT4IP0_bit+0)
 _SX	
-;hal_pic32.h,56 :: 		INT4IP1_bit = 0;                   // Set interrupt priorities
+;hal_pic32.h,62 :: 		INT4IP1_bit = 0;                   // Set interrupt priorities
 LUI	R2, BitMask(INT4IP1_bit+0)
 ORI	R2, R2, BitMask(INT4IP1_bit+0)
 _SX	
-;hal_pic32.h,57 :: 		INT4IP2_bit = 1;                   // Set inrrupt priority to 4
+;hal_pic32.h,63 :: 		INT4IP2_bit = 1;                   // Set inrrupt priority to 4
 LUI	R2, BitMask(INT4IP2_bit+0)
 ORI	R2, R2, BitMask(INT4IP2_bit+0)
 _SX	
-;hal_pic32.h,58 :: 		INT4IE_bit  = 1;                   // Set interrupt on INT2 (RE9) to be enabled
+;hal_pic32.h,64 :: 		INT4IE_bit  = 1;                   // Set interrupt on INT2 (RE9) to be enabled
 LUI	R2, BitMask(INT4IE_bit+0)
 ORI	R2, R2, BitMask(INT4IE_bit+0)
 _SX	
-;hal_pic32.h,60 :: 		INT1IP0_bit = 0;                   // Set INT2 interrupt
+;hal_pic32.h,65 :: 		INT4EP_bit=0;                     //falling edge
+LUI	R2, BitMask(INT4EP_bit+0)
+ORI	R2, R2, BitMask(INT4EP_bit+0)
+_SX	
+;hal_pic32.h,67 :: 		INT1IP0_bit = 0;                   // Set INT2 interrupt
 LUI	R2, BitMask(INT1IP0_bit+0)
 ORI	R2, R2, BitMask(INT1IP0_bit+0)
 _SX	
-;hal_pic32.h,61 :: 		INT1IP1_bit = 0;                   // Set interrupt priorities
+;hal_pic32.h,68 :: 		INT1IP1_bit = 0;                   // Set interrupt priorities
 LUI	R2, BitMask(INT1IP1_bit+0)
 ORI	R2, R2, BitMask(INT1IP1_bit+0)
 _SX	
-;hal_pic32.h,62 :: 		INT1IP2_bit = 1;                   // Set inrrupt priority to 4
+;hal_pic32.h,69 :: 		INT1IP2_bit = 1;                   // Set inrrupt priority to 4
 LUI	R2, BitMask(INT1IP2_bit+0)
 ORI	R2, R2, BitMask(INT1IP2_bit+0)
 _SX	
-;hal_pic32.h,63 :: 		INT1IE_bit  = 1;
+;hal_pic32.h,70 :: 		INT1IE_bit  = 1;
 LUI	R2, BitMask(INT1IE_bit+0)
 ORI	R2, R2, BitMask(INT1IE_bit+0)
 _SX	
-;hal_pic32.h,65 :: 		INT3IP0_bit = 0;                   // Set INT2 interrupt
-LUI	R2, BitMask(INT3IP0_bit+0)
-ORI	R2, R2, BitMask(INT3IP0_bit+0)
+;hal_pic32.h,71 :: 		INT1EP_bit=0;                       //falling edge
+LUI	R2, BitMask(INT1EP_bit+0)
+ORI	R2, R2, BitMask(INT1EP_bit+0)
 _SX	
-;hal_pic32.h,66 :: 		INT3IP1_bit = 0;                   // Set interrupt priorities
-LUI	R2, BitMask(INT3IP1_bit+0)
-ORI	R2, R2, BitMask(INT3IP1_bit+0)
-_SX	
-;hal_pic32.h,67 :: 		INT3IP2_bit = 1;                   // Set inrrupt priority to 4
-LUI	R2, BitMask(INT3IP2_bit+0)
-ORI	R2, R2, BitMask(INT3IP2_bit+0)
-_SX	
-;hal_pic32.h,68 :: 		INT3IE_bit  = 1;
-LUI	R2, BitMask(INT3IE_bit+0)
-ORI	R2, R2, BitMask(INT3IE_bit+0)
-_SX	
-;hal_pic32.h,69 :: 		EnableInterrupts();                // Enable interruts as previously set
+;hal_pic32.h,79 :: 		EnableInterrupts();
 EI	R30
-;hal_pic32.h,71 :: 		}
+;hal_pic32.h,81 :: 		}
 L_end_inti_ports_pIC32_HAL:
 JR	RA
 NOP	
@@ -388,9 +362,9 @@ _SX
 ;ssd1963_8bit_library.h,134 :: 		Delay_ms(5);
 LUI	R24, 2
 ORI	R24, R24, 2260
-L_TFT_Intialize_16bit3:
+L_TFT_Intialize_16bit4:
 ADDIU	R24, R24, -1
-BNE	R24, R0, L_TFT_Intialize_16bit3
+BNE	R24, R0, L_TFT_Intialize_16bit4
 NOP	
 NOP	
 NOP	
@@ -413,9 +387,9 @@ NOP
 ;ssd1963_8bit_library.h,143 :: 		Delay_ms(1);
 LUI	R24, 0
 ORI	R24, R24, 26666
-L_TFT_Intialize_16bit5:
+L_TFT_Intialize_16bit6:
 ADDIU	R24, R24, -1
-BNE	R24, R0, L_TFT_Intialize_16bit5
+BNE	R24, R0, L_TFT_Intialize_16bit6
 NOP	
 ;ssd1963_8bit_library.h,151 :: 		TFT_Set_Index(0x0A);
 ORI	R25, R0, 10
@@ -789,30 +763,30 @@ LW	R25, 16(SP)
 ; x start address is: 12 (R3)
 MOVZ	R3, R0, R0
 ; x end address is: 12 (R3)
-L_TFT_FULL_ON7:
+L_TFT_FULL_ON8:
 ; x start address is: 12 (R3)
 ANDI	R2, R3, 65535
 SLTIU	R2, R2, 480
-BNE	R2, R0, L__TFT_FULL_ON128
+BNE	R2, R0, L__TFT_FULL_ON136
 NOP	
-J	L_TFT_FULL_ON8
+J	L_TFT_FULL_ON9
 NOP	
-L__TFT_FULL_ON128:
+L__TFT_FULL_ON136:
 ;ssd1963_8bit_library.h,278 :: 		for(y= 0;y<800;y++){
 ; y start address is: 16 (R4)
 MOVZ	R4, R0, R0
 ; y end address is: 16 (R4)
 ; x end address is: 12 (R3)
-L_TFT_FULL_ON10:
+L_TFT_FULL_ON11:
 ; y start address is: 16 (R4)
 ; x start address is: 12 (R3)
 ANDI	R2, R4, 65535
 SLTIU	R2, R2, 800
-BNE	R2, R0, L__TFT_FULL_ON129
+BNE	R2, R0, L__TFT_FULL_ON137
 NOP	
-J	L_TFT_FULL_ON11
+J	L_TFT_FULL_ON12
 NOP	
-L__TFT_FULL_ON129:
+L__TFT_FULL_ON137:
 ;ssd1963_8bit_library.h,279 :: 		TFT_Write_Data(dat);
 JAL	_TFT_Write_Data+0
 NOP	
@@ -821,17 +795,17 @@ ADDIU	R2, R4, 1
 ANDI	R4, R2, 65535
 ;ssd1963_8bit_library.h,280 :: 		}
 ; y end address is: 16 (R4)
-J	L_TFT_FULL_ON10
+J	L_TFT_FULL_ON11
 NOP	
-L_TFT_FULL_ON11:
+L_TFT_FULL_ON12:
 ;ssd1963_8bit_library.h,277 :: 		for(x=0;x<480;x++)  {
 ADDIU	R2, R3, 1
 ANDI	R3, R2, 65535
 ;ssd1963_8bit_library.h,281 :: 		}
 ; x end address is: 12 (R3)
-J	L_TFT_FULL_ON7
+J	L_TFT_FULL_ON8
 NOP	
-L_TFT_FULL_ON8:
+L_TFT_FULL_ON9:
 ;ssd1963_8bit_library.h,283 :: 		}
 L_end_TFT_FULL_ON:
 LW	R28, 12(SP)
@@ -871,35 +845,35 @@ NOP
 MOVZ	R5, R0, R0
 ; dat end address is: 16 (R4)
 ; x end address is: 20 (R5)
-L_TFT_Rectangle13:
+L_TFT_Rectangle14:
 ; x start address is: 20 (R5)
 ; dat start address is: 16 (R4)
 ANDI	R3, R5, 65535
 ANDI	R2, R28, 65535
 SLTU	R2, R3, R2
-BNE	R2, R0, L__TFT_Rectangle131
+BNE	R2, R0, L__TFT_Rectangle139
 NOP	
-J	L_TFT_Rectangle14
+J	L_TFT_Rectangle15
 NOP	
-L__TFT_Rectangle131:
+L__TFT_Rectangle139:
 ;ssd1963_8bit_library.h,295 :: 		for(y= 0;y<W;y++){
 ; y start address is: 24 (R6)
 MOVZ	R6, R0, R0
 ; dat end address is: 16 (R4)
 ; y end address is: 24 (R6)
 ; x end address is: 20 (R5)
-L_TFT_Rectangle16:
+L_TFT_Rectangle17:
 ; y start address is: 24 (R6)
 ; dat start address is: 16 (R4)
 ; x start address is: 20 (R5)
 ANDI	R3, R6, 65535
 ANDI	R2, R27, 65535
 SLTU	R2, R3, R2
-BNE	R2, R0, L__TFT_Rectangle132
+BNE	R2, R0, L__TFT_Rectangle140
 NOP	
-J	L_TFT_Rectangle17
+J	L_TFT_Rectangle18
 NOP	
-L__TFT_Rectangle132:
+L__TFT_Rectangle140:
 ;ssd1963_8bit_library.h,296 :: 		TFT_Write_Data(dat);
 SH	R25, 12(SP)
 MOVZ	R25, R4, R0
@@ -911,18 +885,18 @@ ADDIU	R2, R6, 1
 ANDI	R6, R2, 65535
 ;ssd1963_8bit_library.h,297 :: 		}
 ; y end address is: 24 (R6)
-J	L_TFT_Rectangle16
+J	L_TFT_Rectangle17
 NOP	
-L_TFT_Rectangle17:
+L_TFT_Rectangle18:
 ;ssd1963_8bit_library.h,294 :: 		for(x=0;x<H;x++)  {
 ADDIU	R2, R5, 1
 ANDI	R5, R2, 65535
 ;ssd1963_8bit_library.h,298 :: 		}
 ; dat end address is: 16 (R4)
 ; x end address is: 20 (R5)
-J	L_TFT_Rectangle13
+J	L_TFT_Rectangle14
 NOP	
-L_TFT_Rectangle14:
+L_TFT_Rectangle15:
 ;ssd1963_8bit_library.h,300 :: 		}
 L_end_TFT_Rectangle:
 LW	R26, 8(SP)
@@ -964,20 +938,20 @@ LHU	R2, 0(R2)
 ANDI	R4, R2, 65535
 ;ssd1963_8bit_library.h,389 :: 		if(alpha == 0)   width = *(Font_Description_Pointer+2) ; // width of (.)
 ANDI	R2, R3, 65535
-BEQ	R2, R0, L__Display_number135
+BEQ	R2, R0, L__Display_number143
 NOP	
-J	L_Display_number19
+J	L_Display_number20
 NOP	
-L__Display_number135:
+L__Display_number143:
 LW	R2, Offset(_Font_Description_Pointer+0)(GP)
 ADDIU	R2, R2, 4
 LHU	R2, 0(R2)
 ; width start address is: 20 (R5)
 ANDI	R5, R2, 65535
 ; width end address is: 20 (R5)
-J	L_Display_number20
+J	L_Display_number21
 NOP	
-L_Display_number19:
+L_Display_number20:
 ;ssd1963_8bit_library.h,390 :: 		else             width = *(Font_Description_Pointer+1) ; // width of other numbers
 LW	R2, Offset(_Font_Description_Pointer+0)(GP)
 ADDIU	R2, R2, 2
@@ -985,7 +959,7 @@ LHU	R2, 0(R2)
 ; width start address is: 20 (R5)
 ANDI	R5, R2, 65535
 ; width end address is: 20 (R5)
-L_Display_number20:
+L_Display_number21:
 ;ssd1963_8bit_library.h,393 :: 		index = *(Font_Description_Pointer + (alpha*2) + 3)  ;
 ; width start address is: 20 (R5)
 ANDI	R2, R6, 65535
@@ -1027,7 +1001,7 @@ MOVZ	R8, R0, R0
 ; width end address is: 20 (R5)
 ; hight end address is: 16 (R4)
 ; i end address is: 32 (R8)
-L_Display_number21:
+L_Display_number22:
 ; i start address is: 32 (R8)
 ; width_byte start address is: 40 (R10)
 ; index start address is: 24 (R6)
@@ -1036,11 +1010,11 @@ L_Display_number21:
 ANDI	R3, R8, 255
 ANDI	R2, R4, 65535
 SLTU	R2, R3, R2
-BNE	R2, R0, L__Display_number136
+BNE	R2, R0, L__Display_number144
 NOP	
-J	L_Display_number22
+J	L_Display_number23
 NOP	
-L__Display_number136:
+L__Display_number144:
 ;ssd1963_8bit_library.h,401 :: 		for (j=0 ; j<width_byte ; j++) {
 ; j start address is: 28 (R7)
 MOVZ	R7, R0, R0
@@ -1050,7 +1024,7 @@ MOVZ	R7, R0, R0
 ; width end address is: 20 (R5)
 ; hight end address is: 16 (R4)
 ; i end address is: 32 (R8)
-L_Display_number24:
+L_Display_number25:
 ; j start address is: 28 (R7)
 ; hight start address is: 16 (R4)
 ; width start address is: 20 (R5)
@@ -1060,11 +1034,11 @@ L_Display_number24:
 ANDI	R3, R7, 255
 ANDI	R2, R10, 65535
 SLTU	R2, R3, R2
-BNE	R2, R0, L__Display_number137
+BNE	R2, R0, L__Display_number145
 NOP	
-J	L_Display_number25
+J	L_Display_number26
 NOP	
-L__Display_number137:
+L__Display_number145:
 ;ssd1963_8bit_library.h,402 :: 		bdata = *(Font_Pointer + (index+j) + (i * width_byte)) ;
 ANDI	R2, R7, 255
 ADDU	R2, R6, R2
@@ -1088,17 +1062,17 @@ ANDI	R2, R7, 255
 SUBU	R2, R3, R2
 ANDI	R2, R2, 65535
 SLTIU	R2, R2, 1
-BEQ	R2, R0, L__Display_number138
+BEQ	R2, R0, L__Display_number146
 NOP	
-J	L_Display_number27
+J	L_Display_number28
 NOP	
-L__Display_number138:
+L__Display_number146:
 ; repeat start address is: 8 (R2)
 ORI	R2, R0, 8
 ; repeat end address is: 8 (R2)
-J	L_Display_number28
+J	L_Display_number29
 NOP	
-L_Display_number27:
+L_Display_number28:
 ;ssd1963_8bit_library.h,406 :: 		else                        repeat = width - (width_byte-1)*8 ;
 ADDIU	R2, R10, -1
 ANDI	R2, R2, 255
@@ -1108,7 +1082,7 @@ SUBU	R2, R5, R2
 ANDI	R3, R2, 255
 ; repeat end address is: 12 (R3)
 ANDI	R2, R3, 255
-L_Display_number28:
+L_Display_number29:
 ;ssd1963_8bit_library.h,408 :: 		for (k=1 ; k <= repeat ; k++){
 ; repeat start address is: 8 (R2)
 ; k start address is: 44 (R11)
@@ -1125,7 +1099,7 @@ ORI	R11, R0, 1
 ANDI	R13, R7, 255
 ANDI	R7, R8, 255
 ANDI	R8, R2, 255
-L_Display_number29:
+L_Display_number30:
 ; k start address is: 44 (R11)
 ; repeat start address is: 32 (R8)
 ; buf start address is: 48 (R12)
@@ -1140,11 +1114,11 @@ L_Display_number29:
 ANDI	R3, R11, 255
 ANDI	R2, R8, 255
 SLTU	R2, R2, R3
-BEQ	R2, R0, L__Display_number139
+BEQ	R2, R0, L__Display_number147
 NOP	
-J	L_Display_number30
+J	L_Display_number31
 NOP	
-L__Display_number139:
+L__Display_number147:
 ; bdata end address is: 36 (R9)
 ;ssd1963_8bit_library.h,409 :: 		dataBuf = bdata & buf ;
 ; bdata start address is: 36 (R9)
@@ -1157,26 +1131,26 @@ SRL	R2, R2, 1
 ANDI	R12, R2, 255
 ;ssd1963_8bit_library.h,411 :: 		if(dataBuf == 0)   TFT_Write_Data(Back_Color);
 ANDI	R2, R3, 255
-BEQ	R2, R0, L__Display_number140
+BEQ	R2, R0, L__Display_number148
 NOP	
-J	L_Display_number32
+J	L_Display_number33
 NOP	
-L__Display_number140:
+L__Display_number148:
 SB	R25, 16(SP)
 LW	R25, Offset(_Back_Color+0)(GP)
 JAL	_TFT_Write_Data+0
 NOP	
 LBU	R25, 16(SP)
-J	L_Display_number33
+J	L_Display_number34
 NOP	
-L_Display_number32:
+L_Display_number33:
 ;ssd1963_8bit_library.h,412 :: 		else               TFT_Write_Data(Font_Color);
 SB	R25, 16(SP)
 LW	R25, Offset(_Font_Color+0)(GP)
 JAL	_TFT_Write_Data+0
 NOP	
 LBU	R25, 16(SP)
-L_Display_number33:
+L_Display_number34:
 ;ssd1963_8bit_library.h,408 :: 		for (k=1 ; k <= repeat ; k++){
 ADDIU	R2, R11, 1
 ANDI	R11, R2, 255
@@ -1185,9 +1159,9 @@ ANDI	R11, R2, 255
 ; bdata end address is: 36 (R9)
 ; buf end address is: 48 (R12)
 ; k end address is: 44 (R11)
-J	L_Display_number29
+J	L_Display_number30
 NOP	
-L_Display_number30:
+L_Display_number31:
 ;ssd1963_8bit_library.h,401 :: 		for (j=0 ; j<width_byte ; j++) {
 ADDIU	R2, R13, 1
 ; j end address is: 52 (R13)
@@ -1197,9 +1171,9 @@ ANDI	R8, R7, 255
 ; i end address is: 28 (R7)
 ; j end address is: 8 (R2)
 ANDI	R7, R2, 255
-J	L_Display_number24
+J	L_Display_number25
 NOP	
-L_Display_number25:
+L_Display_number26:
 ;ssd1963_8bit_library.h,400 :: 		for (i=0 ; i<hight ; i++){
 ; i start address is: 32 (R8)
 ADDIU	R2, R8, 1
@@ -1210,9 +1184,9 @@ ANDI	R8, R2, 255
 ; width end address is: 20 (R5)
 ; hight end address is: 16 (R4)
 ; i end address is: 32 (R8)
-J	L_Display_number21
+J	L_Display_number22
 NOP	
-L_Display_number22:
+L_Display_number23:
 ;ssd1963_8bit_library.h,418 :: 		}
 L_end_Display_number:
 LW	R28, 12(SP)
@@ -1225,88 +1199,249 @@ NOP
 ; end of _Display_number
 _Display_numbers:
 ;ssd1963_8bit_library.h,427 :: 		void Display_numbers(unsigned char *Data_Pointer, unsigned int x0, unsigned int y0)
-ADDIU	SP, SP, -12
+ADDIU	SP, SP, -16
 SW	RA, 0(SP)
 ;ssd1963_8bit_library.h,430 :: 		int alpha, width, hight, counter = 0,i,j ;
+SW	R25, 4(SP)
+SW	R28, 8(SP)
+; counter start address is: 16 (R4)
+MOVZ	R4, R0, R0
 ;ssd1963_8bit_library.h,432 :: 		Src_Pointer=Data_Pointer;
-; Src_Pointer start address is: 56 (R14)
-MOVZ	R14, R25, R0
-; Src_Pointer end address is: 56 (R14)
+; Src_Pointer start address is: 12 (R3)
+; Src_Pointer start address is: 12 (R3)
+MOVZ	R3, R25, R0
+; Src_Pointer end address is: 12 (R3)
+; counter end address is: 16 (R4)
+;ssd1963_8bit_library.h,435 :: 		while(1){
+L_Display_numbers35:
+;ssd1963_8bit_library.h,436 :: 		counter++ ;
+; counter start address is: 20 (R5)
+; Src_Pointer start address is: 12 (R3)
+; counter start address is: 16 (R4)
+ADDIU	R2, R4, 1
+; counter end address is: 16 (R4)
+; counter start address is: 20 (R5)
+SEH	R5, R2
+; counter end address is: 20 (R5)
+;ssd1963_8bit_library.h,437 :: 		Src_Pointer++;
+ADDIU	R2, R3, 1
+MOVZ	R3, R2, R0
+; Src_Pointer end address is: 12 (R3)
+;ssd1963_8bit_library.h,438 :: 		if(*Src_Pointer == 0) break;         // 0 in ascii == nul
+LBU	R2, 0(R2)
+ANDI	R2, R2, 255
+BEQ	R2, R0, L__Display_numbers150
+NOP	
+J	L_Display_numbers37
+NOP	
+L__Display_numbers150:
+; Src_Pointer end address is: 12 (R3)
+; counter end address is: 20 (R5)
+; counter start address is: 20 (R5)
+J	L_Display_numbers36
+NOP	
+L_Display_numbers37:
+;ssd1963_8bit_library.h,439 :: 		}
+; Src_Pointer start address is: 12 (R3)
+SEH	R4, R5
+; Src_Pointer end address is: 12 (R3)
+J	L_Display_numbers35
+NOP	
+L_Display_numbers36:
+;ssd1963_8bit_library.h,440 :: 		Src_Pointer=Data_Pointer;
+; Src_Pointer start address is: 24 (R6)
+MOVZ	R6, R25, R0
+;ssd1963_8bit_library.h,442 :: 		hight = *Font_Description_Pointer ;
+LW	R2, Offset(_Font_Description_Pointer+0)(GP)
+LHU	R3, 0(R2)
+; hight start address is: 28 (R7)
+ANDI	R7, R3, 65535
+;ssd1963_8bit_library.h,443 :: 		width = *(Font_Description_Pointer+13) ;                 // width of number 4, the max width
+LW	R2, Offset(_Font_Description_Pointer+0)(GP)
+ADDIU	R2, R2, 26
+LHU	R2, 0(R2)
+;ssd1963_8bit_library.h,444 :: 		width = width * counter ;
+MUL	R4, R2, R5
+; width start address is: 32 (R8)
+SEH	R8, R4
+;ssd1963_8bit_library.h,445 :: 		WindowSet(x0,(x0+width-1),y0,(y0+hight-1));      //
+ADDU	R2, R27, R3
+ADDIU	R3, R2, -1
+ADDU	R2, R26, R4
+ADDIU	R2, R2, -1
+SH	R26, 12(SP)
+ANDI	R28, R3, 65535
+ANDI	R25, R26, 65535
+ANDI	R26, R2, 65535
+JAL	_WindowSet+0
+NOP	
+LHU	R26, 12(SP)
+;ssd1963_8bit_library.h,446 :: 		TFT_Set_Index(0x2c);
+ORI	R25, R0, 44
+JAL	_TFT_Set_Index+0
+NOP	
+;ssd1963_8bit_library.h,448 :: 		for (i=0 ; i<hight ; i++){
+; i start address is: 16 (R4)
+MOVZ	R4, R0, R0
+; i end address is: 16 (R4)
+; counter end address is: 20 (R5)
+; Src_Pointer end address is: 24 (R6)
+; hight end address is: 28 (R7)
+; width end address is: 32 (R8)
+L_Display_numbers38:
+; i start address is: 16 (R4)
+; width start address is: 32 (R8)
+; hight start address is: 28 (R7)
+; Src_Pointer start address is: 24 (R6)
+; counter start address is: 20 (R5)
+SEH	R3, R4
+SEH	R2, R7
+SLT	R2, R3, R2
+BNE	R2, R0, L__Display_numbers151
+NOP	
+J	L_Display_numbers39
+NOP	
+L__Display_numbers151:
+;ssd1963_8bit_library.h,449 :: 		for (j=0 ; j<(width*counter) ; j++) {
+; j start address is: 8 (R2)
+MOVZ	R2, R0, R0
+; i end address is: 16 (R4)
+; counter end address is: 20 (R5)
+; j end address is: 8 (R2)
+; Src_Pointer end address is: 24 (R6)
+; hight end address is: 28 (R7)
+; width end address is: 32 (R8)
+SEH	R9, R4
+SEH	R4, R5
+SEH	R5, R2
+L_Display_numbers41:
+; j start address is: 20 (R5)
+; counter start address is: 16 (R4)
+; Src_Pointer start address is: 24 (R6)
+; hight start address is: 28 (R7)
+; width start address is: 32 (R8)
+; i start address is: 36 (R9)
+MUL	R2, R8, R4
+SEH	R3, R5
+SEH	R2, R2
+SLT	R2, R3, R2
+BNE	R2, R0, L__Display_numbers152
+NOP	
+J	L_Display_numbers42
+NOP	
+L__Display_numbers152:
+;ssd1963_8bit_library.h,450 :: 		TFT_Write_Data(Back_Color);
+SW	R25, 12(SP)
+LW	R25, Offset(_Back_Color+0)(GP)
+JAL	_TFT_Write_Data+0
+NOP	
+LW	R25, 12(SP)
+;ssd1963_8bit_library.h,449 :: 		for (j=0 ; j<(width*counter) ; j++) {
+ADDIU	R2, R5, 1
+SEH	R5, R2
+;ssd1963_8bit_library.h,451 :: 		}
+; j end address is: 20 (R5)
+J	L_Display_numbers41
+NOP	
+L_Display_numbers42:
+;ssd1963_8bit_library.h,448 :: 		for (i=0 ; i<hight ; i++){
+ADDIU	R2, R9, 1
+; i end address is: 36 (R9)
+; i start address is: 8 (R2)
+;ssd1963_8bit_library.h,452 :: 		}
+SEH	R5, R4
+; counter end address is: 16 (R4)
+; hight end address is: 28 (R7)
+; width end address is: 32 (R8)
+; i end address is: 8 (R2)
+SEH	R4, R2
+J	L_Display_numbers38
+NOP	
+L_Display_numbers39:
 ;ssd1963_8bit_library.h,453 :: 		while(1)
-L_Display_numbers34:
+MOVZ	R14, R6, R0
+L_Display_numbers44:
+; Src_Pointer end address is: 24 (R6)
 ;ssd1963_8bit_library.h,455 :: 		if(*Src_Pointer != 32) {
 ; Src_Pointer start address is: 56 (R14)
 LBU	R2, 0(R14)
 ANDI	R3, R2, 255
 ORI	R2, R0, 32
-BNE	R3, R2, L__Display_numbers143
+BNE	R3, R2, L__Display_numbers154
 NOP	
-J	L_Display_numbers36
+J	L_Display_numbers46
 NOP	
-L__Display_numbers143:
+L__Display_numbers154:
 ;ssd1963_8bit_library.h,456 :: 		Display_number(*Src_Pointer,x0,y0);
 LBU	R2, 0(R14)
-SW	R25, 4(SP)
+SW	R25, 12(SP)
 ANDI	R25, R2, 255
 JAL	_Display_number+0
 NOP	
-LW	R25, 4(SP)
+LW	R25, 12(SP)
 ;ssd1963_8bit_library.h,457 :: 		alpha = *Src_Pointer - 46 ;
 LBU	R2, 0(R14)
 ANDI	R2, R2, 255
 ADDIU	R2, R2, -46
 ;ssd1963_8bit_library.h,458 :: 		if(alpha == 0)   width = *(Font_Description_Pointer+2) ; // width of (.)
 SEH	R2, R2
-BEQ	R2, R0, L__Display_numbers144
+BEQ	R2, R0, L__Display_numbers155
 NOP	
-J	L_Display_numbers37
+J	L_Display_numbers47
 NOP	
-L__Display_numbers144:
+L__Display_numbers155:
 LW	R2, Offset(_Font_Description_Pointer+0)(GP)
 ADDIU	R2, R2, 4
 LHU	R2, 0(R2)
-SH	R2, 8(SP)
-J	L_Display_numbers38
+; width start address is: 12 (R3)
+ANDI	R3, R2, 65535
+; width end address is: 12 (R3)
+J	L_Display_numbers48
 NOP	
-L_Display_numbers37:
+L_Display_numbers47:
 ;ssd1963_8bit_library.h,459 :: 		else             width = *(Font_Description_Pointer+1) ; // width of other numbers
 LW	R2, Offset(_Font_Description_Pointer+0)(GP)
 ADDIU	R2, R2, 2
 LHU	R2, 0(R2)
-SH	R2, 8(SP)
-L_Display_numbers38:
+; width start address is: 12 (R3)
+ANDI	R3, R2, 65535
+; width end address is: 12 (R3)
+L_Display_numbers48:
 ;ssd1963_8bit_library.h,460 :: 		x0 = x0 + width + 5 ;
-LH	R2, 8(SP)
-ADDU	R2, R26, R2
+; width start address is: 12 (R3)
+ADDU	R2, R26, R3
+; width end address is: 12 (R3)
 ADDIU	R2, R2, 5
 ANDI	R26, R2, 65535
 ;ssd1963_8bit_library.h,461 :: 		}
-L_Display_numbers36:
+L_Display_numbers46:
 ;ssd1963_8bit_library.h,462 :: 		Src_Pointer++;
 ADDIU	R2, R14, 1
 MOVZ	R14, R2, R0
 ;ssd1963_8bit_library.h,463 :: 		if(*Src_Pointer == 0) break;         // 0 in ascii == nul
 LBU	R2, 0(R2)
 ANDI	R2, R2, 255
-BEQ	R2, R0, L__Display_numbers145
+BEQ	R2, R0, L__Display_numbers156
 NOP	
-J	L_Display_numbers39
+J	L_Display_numbers49
 NOP	
-L__Display_numbers145:
+L__Display_numbers156:
 ; Src_Pointer end address is: 56 (R14)
-J	L_Display_numbers35
+J	L_Display_numbers45
 NOP	
-L_Display_numbers39:
+L_Display_numbers49:
 ;ssd1963_8bit_library.h,465 :: 		}
 ; Src_Pointer start address is: 56 (R14)
 ; Src_Pointer end address is: 56 (R14)
-J	L_Display_numbers34
+J	L_Display_numbers44
 NOP	
-L_Display_numbers35:
+L_Display_numbers45:
 ;ssd1963_8bit_library.h,466 :: 		}
 L_end_Display_numbers:
+LW	R28, 8(SP)
+LW	R25, 4(SP)
 LW	RA, 0(SP)
-ADDIU	SP, SP, 12
+ADDIU	SP, SP, 16
 JR	RA
 NOP	
 ; end of _Display_numbers
@@ -1320,26 +1455,26 @@ SW	R26, 8(SP)
 SW	R28, 12(SP)
 ANDI	R2, R25, 255
 SLTIU	R2, R2, 92
-BNE	R2, R0, L__Display_char147
+BNE	R2, R0, L__Display_char158
 NOP	
-J	L_Display_char40
+J	L_Display_char50
 NOP	
-L__Display_char147:
+L__Display_char158:
 ANDI	R2, R25, 255
 ADDIU	R2, R2, -33
 ; alpha start address is: 12 (R3)
 SEH	R3, R2
 ; alpha end address is: 12 (R3)
-J	L_Display_char41
+J	L_Display_char51
 NOP	
-L_Display_char40:
+L_Display_char50:
 ;ssd1963_8bit_library.h,483 :: 		else         alpha = b - 34 ;
 ANDI	R2, R25, 255
 ADDIU	R2, R2, -34
 ; alpha start address is: 12 (R3)
 SEH	R3, R2
 ; alpha end address is: 12 (R3)
-L_Display_char41:
+L_Display_char51:
 ;ssd1963_8bit_library.h,485 :: 		hight = *Font_Description_Pointer ;
 ; alpha start address is: 12 (R3)
 LW	R2, Offset(_Font_Description_Pointer+0)(GP)
@@ -1395,7 +1530,7 @@ ANDI	R4, R6, 65535
 ANDI	R6, R8, 65535
 ANDI	R8, R2, 255
 ANDI	R5, R7, 65535
-L_Display_char42:
+L_Display_char52:
 ; i start address is: 32 (R8)
 ; width_byte start address is: 40 (R10)
 ; index start address is: 24 (R6)
@@ -1404,11 +1539,11 @@ L_Display_char42:
 ANDI	R3, R8, 255
 ANDI	R2, R4, 65535
 SLTU	R2, R3, R2
-BNE	R2, R0, L__Display_char148
+BNE	R2, R0, L__Display_char159
 NOP	
-J	L_Display_char43
+J	L_Display_char53
 NOP	
-L__Display_char148:
+L__Display_char159:
 ;ssd1963_8bit_library.h,495 :: 		for (j=0 ; j<width_byte ; j++) {
 ; j start address is: 28 (R7)
 MOVZ	R7, R0, R0
@@ -1418,7 +1553,7 @@ MOVZ	R7, R0, R0
 ; width end address is: 20 (R5)
 ; hight end address is: 16 (R4)
 ; i end address is: 32 (R8)
-L_Display_char45:
+L_Display_char55:
 ; j start address is: 28 (R7)
 ; hight start address is: 16 (R4)
 ; width start address is: 20 (R5)
@@ -1428,11 +1563,11 @@ L_Display_char45:
 ANDI	R3, R7, 255
 ANDI	R2, R10, 65535
 SLTU	R2, R3, R2
-BNE	R2, R0, L__Display_char149
+BNE	R2, R0, L__Display_char160
 NOP	
-J	L_Display_char46
+J	L_Display_char56
 NOP	
-L__Display_char149:
+L__Display_char160:
 ;ssd1963_8bit_library.h,496 :: 		bdata = *(Font_Pointer + (index+j) + (i * width_byte)) ;
 ANDI	R2, R7, 255
 ADDU	R2, R6, R2
@@ -1456,17 +1591,17 @@ ANDI	R2, R7, 255
 SUBU	R2, R3, R2
 ANDI	R2, R2, 65535
 SLTIU	R2, R2, 1
-BEQ	R2, R0, L__Display_char150
+BEQ	R2, R0, L__Display_char161
 NOP	
-J	L_Display_char48
+J	L_Display_char58
 NOP	
-L__Display_char150:
+L__Display_char161:
 ; repeat start address is: 8 (R2)
 ORI	R2, R0, 8
 ; repeat end address is: 8 (R2)
-J	L_Display_char49
+J	L_Display_char59
 NOP	
-L_Display_char48:
+L_Display_char58:
 ;ssd1963_8bit_library.h,500 :: 		else                        repeat = width - (width_byte-1)*8 ;
 ADDIU	R2, R10, -1
 ANDI	R2, R2, 255
@@ -1476,7 +1611,7 @@ SUBU	R2, R5, R2
 ANDI	R3, R2, 255
 ; repeat end address is: 12 (R3)
 ANDI	R2, R3, 255
-L_Display_char49:
+L_Display_char59:
 ;ssd1963_8bit_library.h,502 :: 		for (k=1 ; k <= repeat ; k++){
 ; repeat start address is: 8 (R2)
 ; k start address is: 44 (R11)
@@ -1493,7 +1628,7 @@ ORI	R11, R0, 1
 ANDI	R13, R7, 255
 ANDI	R7, R8, 255
 ANDI	R8, R2, 255
-L_Display_char50:
+L_Display_char60:
 ; k start address is: 44 (R11)
 ; repeat start address is: 32 (R8)
 ; buf start address is: 48 (R12)
@@ -1508,11 +1643,11 @@ L_Display_char50:
 ANDI	R3, R11, 255
 ANDI	R2, R8, 255
 SLTU	R2, R2, R3
-BEQ	R2, R0, L__Display_char151
+BEQ	R2, R0, L__Display_char162
 NOP	
-J	L_Display_char51
+J	L_Display_char61
 NOP	
-L__Display_char151:
+L__Display_char162:
 ; bdata end address is: 36 (R9)
 ;ssd1963_8bit_library.h,503 :: 		dataBuf = bdata & buf ;
 ; bdata start address is: 36 (R9)
@@ -1525,26 +1660,26 @@ SRL	R2, R2, 1
 ANDI	R12, R2, 255
 ;ssd1963_8bit_library.h,505 :: 		if(dataBuf == 0)   TFT_Write_Data(Back_Color);   //Back_Color
 ANDI	R2, R3, 255
-BEQ	R2, R0, L__Display_char152
+BEQ	R2, R0, L__Display_char163
 NOP	
-J	L_Display_char53
+J	L_Display_char63
 NOP	
-L__Display_char152:
+L__Display_char163:
 SB	R25, 16(SP)
 LW	R25, Offset(_Back_Color+0)(GP)
 JAL	_TFT_Write_Data+0
 NOP	
 LBU	R25, 16(SP)
-J	L_Display_char54
+J	L_Display_char64
 NOP	
-L_Display_char53:
+L_Display_char63:
 ;ssd1963_8bit_library.h,506 :: 		else               TFT_Write_Data(Font_Color);
 SB	R25, 16(SP)
 LW	R25, Offset(_Font_Color+0)(GP)
 JAL	_TFT_Write_Data+0
 NOP	
 LBU	R25, 16(SP)
-L_Display_char54:
+L_Display_char64:
 ;ssd1963_8bit_library.h,502 :: 		for (k=1 ; k <= repeat ; k++){
 ADDIU	R2, R11, 1
 ANDI	R11, R2, 255
@@ -1553,9 +1688,9 @@ ANDI	R11, R2, 255
 ; bdata end address is: 36 (R9)
 ; buf end address is: 48 (R12)
 ; k end address is: 44 (R11)
-J	L_Display_char50
+J	L_Display_char60
 NOP	
-L_Display_char51:
+L_Display_char61:
 ;ssd1963_8bit_library.h,495 :: 		for (j=0 ; j<width_byte ; j++) {
 ADDIU	R2, R13, 1
 ; j end address is: 52 (R13)
@@ -1565,9 +1700,9 @@ ANDI	R8, R7, 255
 ; i end address is: 28 (R7)
 ; j end address is: 8 (R2)
 ANDI	R7, R2, 255
-J	L_Display_char45
+J	L_Display_char55
 NOP	
-L_Display_char46:
+L_Display_char56:
 ;ssd1963_8bit_library.h,494 :: 		for (i=0 ; i<hight ; i++){
 ; i start address is: 32 (R8)
 ADDIU	R2, R8, 1
@@ -1578,9 +1713,9 @@ ANDI	R8, R2, 255
 ; width end address is: 20 (R5)
 ; hight end address is: 16 (R4)
 ; i end address is: 32 (R8)
-J	L_Display_char42
+J	L_Display_char52
 NOP	
-L_Display_char43:
+L_Display_char53:
 ;ssd1963_8bit_library.h,512 :: 		}
 L_end_Display_char:
 LW	R28, 12(SP)
@@ -1600,17 +1735,17 @@ SW	RA, 0(SP)
 MOVZ	R14, R25, R0
 ; Src_Pointer end address is: 56 (R14)
 ;ssd1963_8bit_library.h,529 :: 		while(1)
-L_Display_String55:
+L_Display_String65:
 ;ssd1963_8bit_library.h,531 :: 		if(*Src_Pointer != 32) {
 ; Src_Pointer start address is: 56 (R14)
 LBU	R2, 0(R14)
 ANDI	R3, R2, 255
 ORI	R2, R0, 32
-BNE	R3, R2, L__Display_String155
+BNE	R3, R2, L__Display_String166
 NOP	
-J	L_Display_String57
+J	L_Display_String67
 NOP	
-L__Display_String155:
+L__Display_String166:
 ;ssd1963_8bit_library.h,532 :: 		Display_char(*Src_Pointer,x0,y0);
 LBU	R2, 0(R14)
 SW	R25, 4(SP)
@@ -1622,24 +1757,24 @@ LW	R25, 4(SP)
 LBU	R2, 0(R14)
 ANDI	R2, R2, 255
 SLTIU	R2, R2, 92
-BNE	R2, R0, L__Display_String156
+BNE	R2, R0, L__Display_String167
 NOP	
-J	L_Display_String58
+J	L_Display_String68
 NOP	
-L__Display_String156:
+L__Display_String167:
 LBU	R2, 0(R14)
 ANDI	R2, R2, 255
 ADDIU	R2, R2, -33
 SH	R2, 8(SP)
-J	L_Display_String59
+J	L_Display_String69
 NOP	
-L_Display_String58:
+L_Display_String68:
 ;ssd1963_8bit_library.h,534 :: 		else                    alpha = *Src_Pointer - 34 ;
 LBU	R2, 0(R14)
 ANDI	R2, R2, 255
 ADDIU	R2, R2, -34
 SH	R2, 8(SP)
-L_Display_String59:
+L_Display_String69:
 ;ssd1963_8bit_library.h,535 :: 		alpha = alpha * 2 + 1 ;                            // which the data base start with ( . ) which equal 32 in Ascci
 LH	R2, 8(SP)
 SLL	R2, R2, 1
@@ -1656,28 +1791,28 @@ ADDU	R2, R26, R2
 ADDIU	R2, R2, 2
 ANDI	R26, R2, 65535
 ;ssd1963_8bit_library.h,538 :: 		}
-L_Display_String57:
+L_Display_String67:
 ;ssd1963_8bit_library.h,540 :: 		Src_Pointer++;
 ADDIU	R2, R14, 1
 MOVZ	R14, R2, R0
 ;ssd1963_8bit_library.h,541 :: 		if(*Src_Pointer == 0) break;         // 0 in ascii == nul
 LBU	R2, 0(R2)
 ANDI	R2, R2, 255
-BEQ	R2, R0, L__Display_String157
+BEQ	R2, R0, L__Display_String168
 NOP	
-J	L_Display_String60
+J	L_Display_String70
 NOP	
-L__Display_String157:
+L__Display_String168:
 ; Src_Pointer end address is: 56 (R14)
-J	L_Display_String56
+J	L_Display_String66
 NOP	
-L_Display_String60:
+L_Display_String70:
 ;ssd1963_8bit_library.h,543 :: 		}
 ; Src_Pointer start address is: 56 (R14)
 ; Src_Pointer end address is: 56 (R14)
-J	L_Display_String55
+J	L_Display_String65
 NOP	
-L_Display_String56:
+L_Display_String66:
 ;ssd1963_8bit_library.h,544 :: 		}
 L_end_Display_String:
 LW	RA, 0(SP)
@@ -1694,17 +1829,17 @@ SW	RA, 0(SP)
 MOVZ	R14, R25, R0
 ; Src_Pointer end address is: 56 (R14)
 ;ssd1963_8bit_library.h,554 :: 		while(1)
-L_Display1_String61:
+L_Display1_String71:
 ;ssd1963_8bit_library.h,556 :: 		if(*Src_Pointer != 32) {
 ; Src_Pointer start address is: 56 (R14)
 LBU	R2, 0(R14)
 ANDI	R3, R2, 255
 ORI	R2, R0, 32
-BNE	R3, R2, L__Display1_String160
+BNE	R3, R2, L__Display1_String171
 NOP	
-J	L_Display1_String63
+J	L_Display1_String73
 NOP	
-L__Display1_String160:
+L__Display1_String171:
 ;ssd1963_8bit_library.h,557 :: 		Display_char(*Src_Pointer,x0,y0);
 LBU	R2, 0(R14)
 SW	R25, 4(SP)
@@ -1716,24 +1851,24 @@ LW	R25, 4(SP)
 LBU	R2, 0(R14)
 ANDI	R2, R2, 255
 SLTIU	R2, R2, 92
-BNE	R2, R0, L__Display1_String161
+BNE	R2, R0, L__Display1_String172
 NOP	
-J	L_Display1_String64
+J	L_Display1_String74
 NOP	
-L__Display1_String161:
+L__Display1_String172:
 LBU	R2, 0(R14)
 ANDI	R2, R2, 255
 ADDIU	R2, R2, -33
 SH	R2, 8(SP)
-J	L_Display1_String65
+J	L_Display1_String75
 NOP	
-L_Display1_String64:
+L_Display1_String74:
 ;ssd1963_8bit_library.h,559 :: 		else                    alpha = *Src_Pointer - 34 ;
 LBU	R2, 0(R14)
 ANDI	R2, R2, 255
 ADDIU	R2, R2, -34
 SH	R2, 8(SP)
-L_Display1_String65:
+L_Display1_String75:
 ;ssd1963_8bit_library.h,560 :: 		alpha = alpha * 2 + 1 ;                            // which the data base start with ( . ) which equal 32 in Ascci
 LH	R2, 8(SP)
 SLL	R2, R2, 1
@@ -1750,28 +1885,28 @@ ADDU	R2, R26, R2
 ADDIU	R2, R2, 3
 ANDI	R26, R2, 65535
 ;ssd1963_8bit_library.h,563 :: 		}
-L_Display1_String63:
+L_Display1_String73:
 ;ssd1963_8bit_library.h,565 :: 		Src_Pointer++;
 ADDIU	R2, R14, 1
 MOVZ	R14, R2, R0
 ;ssd1963_8bit_library.h,566 :: 		if(*Src_Pointer == 0) break;         // 0 in ascii == nul
 LBU	R2, 0(R2)
 ANDI	R2, R2, 255
-BEQ	R2, R0, L__Display1_String162
+BEQ	R2, R0, L__Display1_String173
 NOP	
-J	L_Display1_String66
+J	L_Display1_String76
 NOP	
-L__Display1_String162:
+L__Display1_String173:
 ; Src_Pointer end address is: 56 (R14)
-J	L_Display1_String62
+J	L_Display1_String72
 NOP	
-L_Display1_String66:
+L_Display1_String76:
 ;ssd1963_8bit_library.h,568 :: 		}
 ; Src_Pointer start address is: 56 (R14)
 ; Src_Pointer end address is: 56 (R14)
-J	L_Display1_String61
+J	L_Display1_String71
 NOP	
-L_Display1_String62:
+L_Display1_String72:
 ;ssd1963_8bit_library.h,569 :: 		}
 L_end_Display1_String:
 LW	RA, 0(SP)
@@ -1801,11 +1936,11 @@ SEH	R6, R2
 ;ssd1963_8bit_library.h,586 :: 		if(dy < 0)
 SEH	R2, R3
 SLTI	R2, R2, 0
-BNE	R2, R0, L__Draw_Line164
+BNE	R2, R0, L__Draw_Line175
 NOP	
-J	L_Draw_Line67
+J	L_Draw_Line77
 NOP	
-L__Draw_Line164:
+L__Draw_Line175:
 ;ssd1963_8bit_library.h,588 :: 		dy = -dy;
 MOVZ	R2, R0, R0
 SUBU	R2, R2, R5
@@ -1818,9 +1953,9 @@ ORI	R5, R0, 65535
 ;ssd1963_8bit_library.h,590 :: 		}
 ; dy end address is: 12 (R3)
 ; stepy end address is: 20 (R5)
-J	L_Draw_Line68
+J	L_Draw_Line78
 NOP	
-L_Draw_Line67:
+L_Draw_Line77:
 ;ssd1963_8bit_library.h,593 :: 		stepy = 1;
 ; stepy start address is: 8 (R2)
 ; dy start address is: 20 (R5)
@@ -1830,17 +1965,17 @@ ORI	R2, R0, 1
 SEH	R3, R5
 SEH	R5, R2
 ;ssd1963_8bit_library.h,594 :: 		}
-L_Draw_Line68:
+L_Draw_Line78:
 ;ssd1963_8bit_library.h,596 :: 		if(dx < 0)
 ; stepy start address is: 20 (R5)
 ; dy start address is: 12 (R3)
 SEH	R2, R6
 SLTI	R2, R2, 0
-BNE	R2, R0, L__Draw_Line165
+BNE	R2, R0, L__Draw_Line176
 NOP	
-J	L_Draw_Line69
+J	L_Draw_Line79
 NOP	
-L__Draw_Line165:
+L__Draw_Line176:
 ;ssd1963_8bit_library.h,598 :: 		dx = -dx;
 MOVZ	R2, R0, R0
 SUBU	R2, R2, R6
@@ -1850,16 +1985,16 @@ SEH	R6, R2
 ORI	R8, R0, 65535
 ;ssd1963_8bit_library.h,600 :: 		}
 ; stepx end address is: 32 (R8)
-J	L_Draw_Line70
+J	L_Draw_Line80
 NOP	
-L_Draw_Line69:
+L_Draw_Line79:
 ;ssd1963_8bit_library.h,603 :: 		stepx = 1;
 ; stepx start address is: 32 (R8)
 ORI	R8, R0, 1
 ; dx end address is: 24 (R6)
 ; stepx end address is: 32 (R8)
 ;ssd1963_8bit_library.h,604 :: 		}
-L_Draw_Line70:
+L_Draw_Line80:
 ;ssd1963_8bit_library.h,606 :: 		dx <<= 0x01;
 ; stepx start address is: 32 (R8)
 ; dx start address is: 24 (R6)
@@ -1898,11 +2033,11 @@ LH	R25, 4(SP)
 SEH	R3, R7
 SEH	R2, R6
 SLT	R2, R2, R3
-BNE	R2, R0, L__Draw_Line166
+BNE	R2, R0, L__Draw_Line177
 NOP	
-J	L_Draw_Line71
+J	L_Draw_Line81
 NOP	
-L__Draw_Line166:
+L__Draw_Line177:
 ;ssd1963_8bit_library.h,615 :: 		fraction = (dy - (dx >> 1));
 SEH	R2, R7
 SRA	R2, R2, 1
@@ -1911,7 +2046,7 @@ SUBU	R2, R6, R2
 SEH	R9, R2
 ; fraction end address is: 36 (R9)
 ;ssd1963_8bit_library.h,616 :: 		while(x1 != x2)
-L_Draw_Line72:
+L_Draw_Line82:
 ; fraction start address is: 36 (R9)
 ; dy start address is: 24 (R6)
 ; dy end address is: 24 (R6)
@@ -1925,11 +2060,11 @@ L_Draw_Line72:
 ; colour end address is: 16 (R4)
 SEH	R3, R25
 SEH	R2, R27
-BNE	R3, R2, L__Draw_Line168
+BNE	R3, R2, L__Draw_Line179
 NOP	
-J	L_Draw_Line73
+J	L_Draw_Line83
 NOP	
-L__Draw_Line168:
+L__Draw_Line179:
 ; dy end address is: 24 (R6)
 ; dx end address is: 28 (R7)
 ; stepx end address is: 32 (R8)
@@ -1943,11 +2078,11 @@ L__Draw_Line168:
 ; dy start address is: 24 (R6)
 SEH	R2, R9
 SLTI	R2, R2, 0
-BEQ	R2, R0, L__Draw_Line169
+BEQ	R2, R0, L__Draw_Line180
 NOP	
-J	L__Draw_Line107
+J	L__Draw_Line115
 NOP	
-L__Draw_Line169:
+L__Draw_Line180:
 ;ssd1963_8bit_library.h,620 :: 		y1 += stepy;
 ADDU	R2, R26, R5
 SEH	R26, R2
@@ -1956,12 +2091,12 @@ SUBU	R2, R9, R7
 SEH	R9, R2
 ; fraction end address is: 36 (R9)
 ;ssd1963_8bit_library.h,622 :: 		}
-J	L_Draw_Line74
+J	L_Draw_Line84
 NOP	
-L__Draw_Line107:
+L__Draw_Line115:
 ;ssd1963_8bit_library.h,618 :: 		if(fraction >= 0)
 ;ssd1963_8bit_library.h,622 :: 		}
-L_Draw_Line74:
+L_Draw_Line84:
 ;ssd1963_8bit_library.h,623 :: 		x1 += stepx;
 ; fraction start address is: 36 (R9)
 ADDU	R3, R25, R8
@@ -1999,13 +2134,13 @@ LH	R25, 4(SP)
 ; stepy end address is: 20 (R5)
 ; colour end address is: 16 (R4)
 ; fraction end address is: 36 (R9)
-J	L_Draw_Line72
+J	L_Draw_Line82
 NOP	
-L_Draw_Line73:
+L_Draw_Line83:
 ;ssd1963_8bit_library.h,631 :: 		}
-J	L_Draw_Line75
+J	L_Draw_Line85
 NOP	
-L_Draw_Line71:
+L_Draw_Line81:
 ;ssd1963_8bit_library.h,634 :: 		fraction = (dx - (dy >> 1));
 ; colour start address is: 16 (R4)
 ; stepy start address is: 20 (R5)
@@ -2031,7 +2166,7 @@ SEH	R7, R5
 LH	R4, 6(SP)
 LH	R5, 4(SP)
 ;ssd1963_8bit_library.h,636 :: 		while(y1 != y2)
-L_Draw_Line76:
+L_Draw_Line86:
 ; fraction start address is: 36 (R9)
 ; colour start address is: 32 (R8)
 ; stepy start address is: 28 (R7)
@@ -2050,11 +2185,11 @@ L_Draw_Line76:
 ; colour end address is: 32 (R8)
 SEH	R3, R26
 SEH	R2, R28
-BNE	R3, R2, L__Draw_Line171
+BNE	R3, R2, L__Draw_Line182
 NOP	
-J	L_Draw_Line77
+J	L_Draw_Line87
 NOP	
-L__Draw_Line171:
+L__Draw_Line182:
 ; dy end address is: 16 (R4)
 ; dx end address is: 20 (R5)
 ; stepx end address is: 24 (R6)
@@ -2068,11 +2203,11 @@ L__Draw_Line171:
 ; dy start address is: 16 (R4)
 SEH	R2, R9
 SLTI	R2, R2, 0
-BEQ	R2, R0, L__Draw_Line172
+BEQ	R2, R0, L__Draw_Line183
 NOP	
-J	L__Draw_Line108
+J	L__Draw_Line116
 NOP	
-L__Draw_Line172:
+L__Draw_Line183:
 ;ssd1963_8bit_library.h,640 :: 		x1 += stepx;
 ADDU	R2, R25, R6
 SEH	R25, R2
@@ -2081,12 +2216,12 @@ SUBU	R2, R9, R4
 SEH	R9, R2
 ; fraction end address is: 36 (R9)
 ;ssd1963_8bit_library.h,642 :: 		}
-J	L_Draw_Line78
+J	L_Draw_Line88
 NOP	
-L__Draw_Line108:
+L__Draw_Line116:
 ;ssd1963_8bit_library.h,638 :: 		if (fraction >= 0)
 ;ssd1963_8bit_library.h,642 :: 		}
-L_Draw_Line78:
+L_Draw_Line88:
 ;ssd1963_8bit_library.h,643 :: 		y1 += stepy;
 ; fraction start address is: 36 (R9)
 ADDU	R3, R26, R7
@@ -2120,11 +2255,11 @@ LH	R25, 4(SP)
 ; stepy end address is: 28 (R7)
 ; colour end address is: 32 (R8)
 ; fraction end address is: 36 (R9)
-J	L_Draw_Line76
+J	L_Draw_Line86
 NOP	
-L_Draw_Line77:
+L_Draw_Line87:
 ;ssd1963_8bit_library.h,650 :: 		}
-L_Draw_Line75:
+L_Draw_Line85:
 ;ssd1963_8bit_library.h,651 :: 		}
 L_end_Draw_Line:
 LW	RA, 0(SP)
@@ -2155,24 +2290,24 @@ SEH	R12, R2
 ; a end address is: 52 (R13)
 ; p end address is: 48 (R12)
 ;ssd1963_8bit_library.h,675 :: 		do
-J	L_Draw_Circle79
+J	L_Draw_Circle89
 NOP	
-L__Draw_Circle109:
+L__Draw_Circle117:
 ;ssd1963_8bit_library.h,717 :: 		}while(a <= b);
 SEH	R11, R4
 ;ssd1963_8bit_library.h,675 :: 		do
-L_Draw_Circle79:
+L_Draw_Circle89:
 ;ssd1963_8bit_library.h,677 :: 		switch(fill)
 ; p start address is: 48 (R12)
 ; b start address is: 44 (R11)
 ; a start address is: 52 (R13)
 ; colour start address is: 40 (R10)
 ; colour end address is: 40 (R10)
-J	L_Draw_Circle82
+J	L_Draw_Circle92
 NOP	
 ; colour end address is: 40 (R10)
 ;ssd1963_8bit_library.h,679 :: 		case 1:
-L_Draw_Circle84:
+L_Draw_Circle94:
 ;ssd1963_8bit_library.h,681 :: 		Draw_Line((xc - a), (yc + b), (xc + a), (yc + b), colour);
 ; colour start address is: 40 (R10)
 ADDU	R4, R26, R11
@@ -2251,10 +2386,10 @@ LH	R26, 8(SP)
 LH	R27, 6(SP)
 LBU	R28, 4(SP)
 ;ssd1963_8bit_library.h,685 :: 		break;
-J	L_Draw_Circle83
+J	L_Draw_Circle93
 NOP	
 ;ssd1963_8bit_library.h,687 :: 		default:
-L_Draw_Circle85:
+L_Draw_Circle95:
 ;ssd1963_8bit_library.h,689 :: 		WindowSet((xc + a),(xc + a), (yc + b), (yc + b));
 ADDU	R3, R26, R11
 ADDU	R2, R25, R13
@@ -2440,28 +2575,28 @@ JAL	_TFT_Write_Data+0
 NOP	
 LH	R25, 4(SP)
 ;ssd1963_8bit_library.h,705 :: 		break;
-J	L_Draw_Circle83
+J	L_Draw_Circle93
 NOP	
 ;ssd1963_8bit_library.h,707 :: 		}
-L_Draw_Circle82:
+L_Draw_Circle92:
 ANDI	R3, R28, 255
 ORI	R2, R0, 1
-BNE	R3, R2, L__Draw_Circle175
+BNE	R3, R2, L__Draw_Circle186
 NOP	
-J	L_Draw_Circle84
+J	L_Draw_Circle94
 NOP	
-L__Draw_Circle175:
-J	L_Draw_Circle85
+L__Draw_Circle186:
+J	L_Draw_Circle95
 NOP	
-L_Draw_Circle83:
+L_Draw_Circle93:
 ;ssd1963_8bit_library.h,709 :: 		if(p < 0)
 SEH	R2, R12
 SLTI	R2, R2, 0
-BNE	R2, R0, L__Draw_Circle176
+BNE	R2, R0, L__Draw_Circle187
 NOP	
-J	L_Draw_Circle86
+J	L_Draw_Circle96
 NOP	
-L__Draw_Circle176:
+L__Draw_Circle187:
 ;ssd1963_8bit_library.h,711 :: 		p += (0x03 + (0x02 * a++));
 SEH	R2, R13
 SLL	R2, R2, 1
@@ -2472,9 +2607,9 @@ ADDIU	R2, R13, 1
 SEH	R13, R2
 ;ssd1963_8bit_library.h,712 :: 		}
 SEH	R4, R11
-J	L_Draw_Circle87
+J	L_Draw_Circle97
 NOP	
-L_Draw_Circle86:
+L_Draw_Circle96:
 ;ssd1963_8bit_library.h,715 :: 		p += (0x05 + (0x02 * ((a++) - (b--))));
 SUBU	R2, R13, R11
 SEH	R2, R2
@@ -2492,7 +2627,7 @@ SEH	R4, R2
 ; a end address is: 52 (R13)
 ; p end address is: 48 (R12)
 ;ssd1963_8bit_library.h,716 :: 		}
-L_Draw_Circle87:
+L_Draw_Circle97:
 ;ssd1963_8bit_library.h,717 :: 		}while(a <= b);
 ; b start address is: 16 (R4)
 ; a start address is: 52 (R13)
@@ -2500,11 +2635,11 @@ L_Draw_Circle87:
 SEH	R3, R13
 SEH	R2, R4
 SLT	R2, R2, R3
-BNE	R2, R0, L__Draw_Circle177
+BNE	R2, R0, L__Draw_Circle188
 NOP	
-J	L__Draw_Circle109
+J	L__Draw_Circle117
 NOP	
-L__Draw_Circle177:
+L__Draw_Circle188:
 ; colour end address is: 40 (R10)
 ; b end address is: 16 (R4)
 ; a end address is: 52 (R13)
@@ -2586,7 +2721,7 @@ SEH	R10, R2
 MOVZ	R14, R0, R0
 ; size end address is: 48 (R12)
 ; i end address is: 56 (R14)
-L_Draw_rectangle88:
+L_Draw_rectangle98:
 ; i start address is: 56 (R14)
 ; y2 start address is: 40 (R10)
 ; y2 end address is: 40 (R10)
@@ -2598,11 +2733,11 @@ L_Draw_rectangle88:
 SEH	R3, R14
 ANDI	R2, R12, 65535
 SLTU	R2, R3, R2
-BNE	R2, R0, L__Draw_rectangle181
+BNE	R2, R0, L__Draw_rectangle192
 NOP	
-J	L_Draw_rectangle89
+J	L_Draw_rectangle99
 NOP	
-L__Draw_rectangle181:
+L__Draw_rectangle192:
 ; y2 end address is: 40 (R10)
 ; x2 end address is: 44 (R11)
 ; colour end address is: 52 (R13)
@@ -2676,9 +2811,9 @@ SEH	R14, R2
 ; size end address is: 48 (R12)
 ; colour end address is: 52 (R13)
 ; i end address is: 56 (R14)
-J	L_Draw_rectangle88
+J	L_Draw_rectangle98
 NOP	
-L_Draw_rectangle89:
+L_Draw_rectangle99:
 ;ssd1963_8bit_library.h,746 :: 		}
 L_end_Draw_rectangle:
 LW	RA, 0(SP)
@@ -2717,35 +2852,35 @@ NOP
 MOVZ	R7, R0, R0
 ; img end address is: 24 (R6)
 ; y end address is: 28 (R7)
-L_img_load_raw_image_mem91:
+L_img_load_raw_image_mem101:
 ; y start address is: 28 (R7)
 ; img start address is: 24 (R6)
 ANDI	R3, R7, 65535
 SEH	R2, R28
 SLTU	R2, R3, R2
-BNE	R2, R0, L__img_load_raw_image_mem183
+BNE	R2, R0, L__img_load_raw_image_mem194
 NOP	
-J	L_img_load_raw_image_mem92
+J	L_img_load_raw_image_mem102
 NOP	
-L__img_load_raw_image_mem183:
+L__img_load_raw_image_mem194:
 ;ssd1963_8bit_library.h,755 :: 		for (x = 0; x < imgX; x++){
 ; x start address is: 32 (R8)
 MOVZ	R8, R0, R0
 ; img end address is: 24 (R6)
 ; x end address is: 32 (R8)
 ; y end address is: 28 (R7)
-L_img_load_raw_image_mem94:
+L_img_load_raw_image_mem104:
 ; x start address is: 32 (R8)
 ; img start address is: 24 (R6)
 ; y start address is: 28 (R7)
 ANDI	R3, R8, 65535
 SEH	R2, R27
 SLTU	R2, R3, R2
-BNE	R2, R0, L__img_load_raw_image_mem184
+BNE	R2, R0, L__img_load_raw_image_mem195
 NOP	
-J	L_img_load_raw_image_mem95
+J	L_img_load_raw_image_mem105
 NOP	
-L__img_load_raw_image_mem184:
+L__img_load_raw_image_mem195:
 ;ssd1963_8bit_library.h,757 :: 		dataa = img[(imgX*2*y)+2*x] ;
 SEH	R2, R27
 SLL	R2, R2, 1
@@ -2782,18 +2917,18 @@ ADDIU	R2, R8, 1
 ANDI	R8, R2, 65535
 ;ssd1963_8bit_library.h,762 :: 		}
 ; x end address is: 32 (R8)
-J	L_img_load_raw_image_mem94
+J	L_img_load_raw_image_mem104
 NOP	
-L_img_load_raw_image_mem95:
+L_img_load_raw_image_mem105:
 ;ssd1963_8bit_library.h,754 :: 		for ( y = 0; y < imgY; y++) {
 ADDIU	R2, R7, 1
 ANDI	R7, R2, 65535
 ;ssd1963_8bit_library.h,763 :: 		}
 ; img end address is: 24 (R6)
 ; y end address is: 28 (R7)
-J	L_img_load_raw_image_mem91
+J	L_img_load_raw_image_mem101
 NOP	
-L_img_load_raw_image_mem92:
+L_img_load_raw_image_mem102:
 ;ssd1963_8bit_library.h,764 :: 		}
 L_end_img_load_raw_image_mem:
 LW	R26, 8(SP)
@@ -3504,11 +3639,11 @@ ANDI	R2, R2, 65535
 SW	R2, Offset(_Back_Color+0)(GP)
 ;page_def.h,454 :: 		if(x==0){
 SEH	R2, R25
-BEQ	R2, R0, L__DrawBox187
+BEQ	R2, R0, L__DrawBox198
 NOP	
-J	L_DrawBox97
+J	L_DrawBox107
 NOP	
-L__DrawBox187:
+L__DrawBox198:
 ;page_def.h,455 :: 		Draw_rectangle(ABox->Left, ABox->Top,  ABox->Width,  ABox->Height,  ABox->Color,2 );
 ADDIU	R2, R26, 28
 LHU	R6, 0(R2)
@@ -3533,9 +3668,9 @@ JAL	_Draw_rectangle+0
 NOP	
 ADDIU	SP, SP, 8
 ;page_def.h,456 :: 		}
-J	L_DrawBox98
+J	L_DrawBox108
 NOP	
-L_DrawBox97:
+L_DrawBox107:
 ;page_def.h,458 :: 		TFT_Rectangle(ABox->Left, ABox->Top,  ABox->Width,  ABox->Height,  ABox->Color );
 ADDIU	R2, R26, 28
 LHU	R6, 0(R2)
@@ -3558,7 +3693,7 @@ JAL	_TFT_Rectangle+0
 NOP	
 ADDIU	SP, SP, 4
 ;page_def.h,459 :: 		}
-L_DrawBox98:
+L_DrawBox108:
 ;page_def.h,460 :: 		}
 L_end_DrawBox:
 LW	R28, 16(SP)
@@ -3745,15 +3880,15 @@ JAL	_TFT_FULL_ON+0
 NOP	
 LW	R25, 8(SP)
 ;page_def.h,512 :: 		while(Screen->BoxesCount != 0){
-L_display_page99:
+L_display_page109:
 ADDIU	R2, R25, 32
 LHU	R2, 0(R2)
 ANDI	R2, R2, 65535
-BNE	R2, R0, L__display_page194
+BNE	R2, R0, L__display_page205
 NOP	
-J	L_display_page100
+J	L_display_page110
 NOP	
-L__display_page194:
+L__display_page205:
 ;page_def.h,513 :: 		DrawBox(1 , *Screen->Boxes );
 ADDIU	R2, R25, 36
 LW	R2, 0(R2)
@@ -3774,9 +3909,9 @@ LHU	R2, 0(R3)
 ADDIU	R2, R2, -1
 SH	R2, 0(R3)
 ;page_def.h,516 :: 		}
-J	L_display_page99
+J	L_display_page109
 NOP	
-L_display_page100:
+L_display_page110:
 ;page_def.h,536 :: 		}
 L_end_display_page:
 LW	R26, 4(SP)
@@ -3786,21 +3921,21 @@ JR	RA
 NOP	
 ; end of _display_page
 _rotary_b_click:
-;page_def.h,537 :: 		void rotary_b_click(unsigned char count_rotary ){
+;page_def.h,537 :: 		void rotary_b_click(unsigned char count_rotary_b ){
 ADDIU	SP, SP, -24
 SW	RA, 0(SP)
-;page_def.h,541 :: 		if(count_rotary==1){
+;page_def.h,541 :: 		if(count_rotary_b==1){
 SW	R25, 4(SP)
 SW	R26, 8(SP)
 SW	R27, 12(SP)
 SW	R28, 16(SP)
 ANDI	R3, R25, 255
 ORI	R2, R0, 1
-BEQ	R3, R2, L__rotary_b_click196
+BEQ	R3, R2, L__rotary_b_click207
 NOP	
-J	L_rotary_b_click101
+J	L_rotary_b_click111
 NOP	
-L__rotary_b_click196:
+L__rotary_b_click207:
 ;page_def.h,542 :: 		TFT_Rectangle(Screen1_Boxes[1]->Left,Screen1_Boxes[1]->Top,  Screen1_Boxes[1]->Width,  Screen1_Boxes[1]->Height, White );
 SB	R25, 20(SP)
 LHU	R28, Offset(_Box1+12)(GP)
@@ -3815,15 +3950,15 @@ NOP
 ADDIU	SP, SP, 4
 LBU	R25, 20(SP)
 ;page_def.h,543 :: 		}
-L_rotary_b_click101:
-;page_def.h,545 :: 		if(count_rotary==2){
+L_rotary_b_click111:
+;page_def.h,545 :: 		if(count_rotary_b==2){
 ANDI	R3, R25, 255
 ORI	R2, R0, 2
-BEQ	R3, R2, L__rotary_b_click197
+BEQ	R3, R2, L__rotary_b_click208
 NOP	
-J	L_rotary_b_click102
+J	L_rotary_b_click112
 NOP	
-L__rotary_b_click197:
+L__rotary_b_click208:
 ;page_def.h,546 :: 		TFT_Rectangle(Screen1_Boxes[1]->Left,Screen1_Boxes[1]->Top,  Screen1_Boxes[1]->Width,  Screen1_Boxes[1]->Height, Blue );
 LHU	R28, Offset(_Box1+12)(GP)
 LHU	R27, Offset(_Box1+10)(GP)
@@ -3847,8 +3982,8 @@ JAL	_TFT_Rectangle+0
 NOP	
 ADDIU	SP, SP, 4
 ;page_def.h,548 :: 		count_rotary=0;}
-MOVZ	R25, R0, R0
-L_rotary_b_click102:
+SB	R0, Offset(_count_rotary+0)(GP)
+L_rotary_b_click112:
 ;page_def.h,561 :: 		}
 L_end_rotary_b_click:
 LW	R28, 16(SP)
@@ -3868,50 +4003,45 @@ NOP
 ;MyProjectff.c,10 :: 		TFT_Intialize_16bit();
 JAL	_TFT_Intialize_16bit+0
 NOP	
-;MyProjectff.c,11 :: 		InitializeObjects();
+;MyProjectff.c,12 :: 		InitializeObjects();
 JAL	MyProjectff_InitializeObjects+0
 NOP	
-;MyProjectff.c,12 :: 		Set_BackLight(0xFF);
+;MyProjectff.c,13 :: 		Set_BackLight(0xFF);
 ORI	R25, R0, 255
 JAL	_Set_BackLight+0
 NOP	
-;MyProjectff.c,13 :: 		Back_Color=0xffff;
+;MyProjectff.c,14 :: 		Back_Color=0xffff;
 ORI	R2, R0, 65535
 SW	R2, Offset(_Back_Color+0)(GP)
-;MyProjectff.c,14 :: 		img_load_raw_image_mem(316,152 ,137 ,77 , gImage_MEGEG);
-LUI	R2, hi_addr(_gImage_MEGEG+0)
-ORI	R2, R2, lo_addr(_gImage_MEGEG+0)
-ORI	R28, R0, 77
-ORI	R27, R0, 137
-ORI	R26, R0, 152
-ORI	R25, R0, 316
-ADDIU	SP, SP, -4
-SW	R2, 0(SP)
-JAL	_img_load_raw_image_mem+0
+;MyProjectff.c,18 :: 		TFT_FULL_ON(White);
+ORI	R25, R0, 65535
+JAL	_TFT_FULL_ON+0
 NOP	
-ADDIU	SP, SP, 4
-;MyProjectff.c,15 :: 		delay_ms(1000);
-LUI	R24, 406
-ORI	R24, R24, 59050
-L_main103:
-ADDIU	R24, R24, -1
-BNE	R24, R0, L_main103
+;MyProjectff.c,19 :: 		Back_Color=White;
+ORI	R2, R0, 65535
+SW	R2, Offset(_Back_Color+0)(GP)
+;MyProjectff.c,20 :: 		TFT_Set_Font(tahoma_30pt_Font, tahoma_30pt_FontDescriptors,Black);
+LUI	R3, hi_addr(_tahoma_30pt_FontDescriptors+0)
+ORI	R3, R3, lo_addr(_tahoma_30pt_FontDescriptors+0)
+LUI	R2, hi_addr(_tahoma_30pt_Font+0)
+ORI	R2, R2, lo_addr(_tahoma_30pt_Font+0)
+MOVZ	R27, R0, R0
+MOVZ	R26, R3, R0
+MOVZ	R25, R2, R0
+JAL	_TFT_Set_Font+0
 NOP	
-;MyProjectff.c,16 :: 		display_page(&Screen1);
-LUI	R25, hi_addr(_Screen1+0)
-ORI	R25, R25, lo_addr(_Screen1+0)
-JAL	_display_page+0
-NOP	
-;MyProjectff.c,18 :: 		while(1){
-L_main105:
-;MyProjectff.c,19 :: 		rotary_b_click(count_rotary);
+;MyProjectff.c,22 :: 		while(1){
+L_main113:
+;MyProjectff.c,25 :: 		Display_char(count_rotary, 100, 50)  ;
+ORI	R27, R0, 50
+ORI	R26, R0, 100
 LBU	R25, Offset(_count_rotary+0)(GP)
-JAL	_rotary_b_click+0
-NOP	
-;MyProjectff.c,21 :: 		}
-J	L_main105
+JAL	_Display_char+0
 NOP	
 ;MyProjectff.c,27 :: 		}
+J	L_main113
+NOP	
+;MyProjectff.c,33 :: 		}
 L_end_main:
 L__main_end_loop:
 J	L__main_end_loop

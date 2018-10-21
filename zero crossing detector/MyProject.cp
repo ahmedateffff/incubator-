@@ -1,4 +1,4 @@
-#line 1 "E:/zcd/zcd init/MyProject.c"
+#line 1 "C:/Users/ahmed/Desktop/incubator/zero crossing detector/MyProject.c"
 
  void zcd_initialize(){
  INTCON.GIE=1;
@@ -34,7 +34,7 @@ WPUC=0X00;
 OPTION_REG.nWPUEN=0x01;
 RC1_bit = 0 ;
 zcd_initialize();
-portc=0xff;
+portc=0xff ;
 porta=0xff;
 
 

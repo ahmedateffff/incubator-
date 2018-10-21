@@ -432,7 +432,7 @@ void Display_numbers(unsigned char *Data_Pointer, unsigned int x0, unsigned int 
         Src_Pointer=Data_Pointer;
      
      // clear the area of the new data
-        /*while(1){
+        while(1){
          counter++ ;
          Src_Pointer++;
          if(*Src_Pointer == 0) break;         // 0 in ascii == nul
@@ -449,7 +449,7 @@ void Display_numbers(unsigned char *Data_Pointer, unsigned int x0, unsigned int 
              for (j=0 ; j<(width*counter) ; j++) {
                   TFT_Write_Data(Back_Color);
                 }
-          }*/
+          }
         while(1)
         {
            if(*Src_Pointer != 32) {

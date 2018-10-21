@@ -1064,6 +1064,14 @@ ovrc
 ovrc_bit
 ovrd
 ovrd_bit
+p1m0
+p1m0_bit
+p1m1
+p1m1_bit
+p2m0
+p2m0_bit
+p2m1
+p2m1_bit
 pcl
 pclath
 pclath_shad
@@ -1104,9 +1112,12 @@ polc
 polc_bit
 pold
 pold_bit
+port_to_tris_offset
 porta
 portc
 pr2
+pr4
+pr6
 ps0
 ps0_bit
 ps1
@@ -2134,6 +2145,7 @@ tmr1if_bit
 tmr1l
 tmr1on
 tmr1on_bit
+tmr2
 tmr2as
 tmr2as_bit
 tmr2ie
@@ -2142,6 +2154,7 @@ tmr2if
 tmr2if_bit
 tmr2on
 tmr2on_bit
+tmr4
 tmr4as
 tmr4as_bit
 tmr4ie
@@ -2150,6 +2163,7 @@ tmr4if
 tmr4if_bit
 tmr4on
 tmr4on_bit
+tmr6
 tmr6as
 tmr6as_bit
 tmr6ie

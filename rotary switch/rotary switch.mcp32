@@ -44,7 +44,9 @@ Count=0
 [PLDS]
 Count=0
 [Useses]
-Count=0
+Count=2
+File0=ADC
+File1=Button
 [INTERRUPT_DEFS]
 EBASE=9FC01000
 VECTOR_SPACEING=32

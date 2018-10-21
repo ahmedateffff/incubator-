@@ -57,7 +57,7 @@ _main:
 	BCF        RC1_bit+0, BitPos(RC1_bit+0)
 ;MyProject.c,35 :: 		zcd_initialize();
 	CALL       _zcd_initialize+0
-;MyProject.c,36 :: 		portc=0xff;
+;MyProject.c,36 :: 		portc=0xff ;
 	MOVLW      255
 	MOVWF      PORTC+0
 ;MyProject.c,37 :: 		porta=0xff;

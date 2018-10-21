@@ -5,33 +5,33 @@
 
 
 
- unsigned char count_rotary;
-
-
- void INT1_interrupt() iv IVT_EXTERNAL_1 ilevel 1 ics ICS_AUTO {
+ unsigned char count_rotary='A';
+ unsigned char pinALast=0;
+ unsigned char pinBLast=0;
+ unsigned char Aval;
+ void adsdd();
+void INT1_interrupt() iv IVT_EXTERNAL_1 ilevel 3 ics ICS_AUTO {
  if(INT1IF_bit){
+ if(RD10_bit==1){
 
- INT1IF_bit = 0;
- count_rotary--;
+ count_rotary=count_rotary+1;
+ }
+ if(RD10_bit==0) {
+
+ count_rotary=count_rotary-1;
+ }
+
 
 
  }
+ INT1IF_bit=0;
  }
- void INT3_interrupt() iv IVT_EXTERNAL_3 ilevel 2 ics ICS_AUTO {
- if(INT3IF_bit){
-
- INT3IF_bit = 0;
- count_rotary++;
-
-
- }
- }
- void INT4_interrupt() iv IVT_EXTERNAL_4 ilevel 3 ics ICS_AUTO {
+ void INT4_interrupt() iv IVT_EXTERNAL_4 ilevel 1 ics ICS_AUTO {
  if(INT4IF_bit){
 
  INT4IF_bit = 0;
  portf.f3=~portf.f3;
- count_rotary++;
+
  }
  }
 
@@ -49,26 +49,30 @@
  TRISC14_bit=0;
 
  trisf.f3=0;
+ trisf.f6=0;
  LATf.f3 = 0;
  portf.f3 =0 ;
+ LATf.f6 = 0;
+ portf.f6 =0 ;
+
+
+
  TRISd.f11 = 1;
  TRISd.f10 = 1;
  TRISd.f8 = 1;
 
- INT4IP0_bit = 0;
+INT4IP0_bit = 0;
  INT4IP1_bit = 0;
  INT4IP2_bit = 1;
  INT4IE_bit = 1;
+ INT4EP_bit=0;
 
- INT1IP0_bit = 0;
+INT1IP0_bit = 0;
  INT1IP1_bit = 0;
  INT1IP2_bit = 1;
  INT1IE_bit = 1;
-
- INT3IP0_bit = 0;
- INT3IP1_bit = 0;
- INT3IP2_bit = 1;
- INT3IE_bit = 1;
+ INT1EP_bit=0;
+#line 79 "c:/users/ahmed/desktop/incubator/tft display/hal_pic32.h"
  EnableInterrupts();
 
 }
@@ -372,7 +376,26 @@ void Display_numbers(unsigned char *Data_Pointer, unsigned int x0, unsigned int 
  int alpha, width, hight, counter = 0,i,j ;
 
  Src_Pointer=Data_Pointer;
-#line 453 "c:/users/ahmed/desktop/incubator/tft display/ssd1963_8bit_library.h"
+
+
+ while(1){
+ counter++ ;
+ Src_Pointer++;
+ if(*Src_Pointer == 0) break;
+ }
+ Src_Pointer=Data_Pointer;
+
+ hight = *Font_Description_Pointer ;
+ width = *(Font_Description_Pointer+13) ;
+ width = width * counter ;
+ WindowSet(x0,(x0+width-1),y0,(y0+hight-1));
+ TFT_Set_Index(0x2c);
+
+ for (i=0 ; i<hight ; i++){
+ for (j=0 ; j<(width*counter) ; j++) {
+ TFT_Write_Data(Back_Color);
+ }
+ }
  while(1)
  {
  if(*Src_Pointer != 32) {
@@ -1180,15 +1203,15 @@ void DrawImage(TImage *AImage){
  }
 #line 536 "c:/users/ahmed/desktop/incubator/tft display/page_def.h"
  }
-void rotary_b_click(unsigned char count_rotary ){
+void rotary_b_click(unsigned char count_rotary_b ){
 
 
 
-if(count_rotary==1){
+if(count_rotary_b==1){
  TFT_Rectangle(Screen1_Boxes[1]->Left,Screen1_Boxes[1]->Top, Screen1_Boxes[1]->Width, Screen1_Boxes[1]->Height,  0xFFFF  );
  }
 
-if(count_rotary==2){
+if(count_rotary_b==2){
 TFT_Rectangle(Screen1_Boxes[1]->Left,Screen1_Boxes[1]->Top, Screen1_Boxes[1]->Width, Screen1_Boxes[1]->Height,  0x001F  );
 TFT_Rectangle(Screen1_Boxes[2]->Left,Screen1_Boxes[2]->Top, Screen1_Boxes[2]->Width, Screen1_Boxes[2]->Height,  0xFFFF  );
  count_rotary=0;}
@@ -1201,15 +1224,19 @@ TFT_Rectangle(Screen1_Boxes[2]->Left,Screen1_Boxes[2]->Top, Screen1_Boxes[2]->Wi
 void main() {
  inti_ports_pIC32_HAL();
  TFT_Intialize_16bit();
+
  InitializeObjects();
  Set_BackLight(0xFF);
  Back_Color=0xffff;
-img_load_raw_image_mem(316,152 ,137 ,77 , gImage_MEGEG);
- delay_ms(1000);
- display_page(&Screen1);
+#line 18 "C:/Users/ahmed/Desktop/incubator/tft display/MyProjectff.c"
+ TFT_FULL_ON( 0xFFFF );
+ Back_Color= 0xFFFF ;
+ TFT_Set_Font(tahoma_30pt_Font, tahoma_30pt_FontDescriptors, 0x0000 );
 
  while(1){
- rotary_b_click(count_rotary);
+
+
+ Display_char(count_rotary, 100, 50) ;
 
  }
 

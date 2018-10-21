@@ -7,6 +7,10 @@ __cs2s
 __flash_size
 __fzins
 __genexcept
+_adc_external_ref
+_adc_internal_ref
+_adc_vrefh_external_vrefl_internal
+_adc_vrefh_internal_vrefl_external
 _add_dp
 _add_fp
 _appi
@@ -455,6 +459,11 @@ ad1pcfginv
 ad1pcfginvbits
 ad1pcfgset
 ad1pcfgsetbits
+adc_get_sample_ptr
+adc1_get_sample
+adc1_init
+adc1_init_advanced
+adc1_read
 adc1buf0
 adc1buf00
 adc1buf00_bit
@@ -2103,6 +2112,7 @@ autopad
 autopad
 autopad
 autopad_bit
+aval
 b0
 b1
 b10
@@ -3217,6 +3227,7 @@ busy
 busy
 busy_bit
 busy_ethstat_bit
+button
 byto
 byto
 byto
@@ -14888,6 +14899,7 @@ cosc2
 cosc2
 cosc2
 cosc2_bit
+count_rotary
 cout
 cout
 cout
@@ -29013,6 +29025,7 @@ int2is0
 int2is0_bit
 int2is1
 int2is1_bit
+int3_interrupt
 int3ep
 int3ep
 int3ep
@@ -29049,6 +29062,7 @@ int3is0
 int3is0_bit
 int3is1
 int3is1_bit
+int4_interrupt
 int4ep
 int4ep
 int4ep
@@ -29093,7 +29107,7 @@ intconinv
 intconinvbits
 intconset
 intconsetbits
-interrupt
+inti_ports_pic32_hal
 intstat
 intstatbits
 ipc0
@@ -33178,6 +33192,7 @@ offcal
 offcal
 offcal
 offcal_bit
+oldstate
 on
 on
 on
@@ -34212,6 +34227,10 @@ pidef
 pidef
 pidef
 pidef_bit
+pina
+pinalast
+pinb
+pinblast
 piv
 piv
 piv

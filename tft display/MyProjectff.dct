@@ -2422,6 +2422,7 @@ autopad
 autopad
 autopad
 autopad_bit
+aval
 b0
 b1
 b10
@@ -29729,7 +29730,6 @@ int2is0
 int2is0_bit
 int2is1
 int2is1_bit
-int3_interrupt
 int3ep
 int3ep
 int3ep
@@ -35152,6 +35152,8 @@ pidef
 pidef
 pidef
 pidef_bit
+pinalast
+pinblast
 ping_pong
 piv
 piv

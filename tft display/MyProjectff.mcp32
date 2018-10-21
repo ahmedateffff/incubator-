@@ -6,7 +6,7 @@ Value=0
 [BUILD_TYPE]
 Value=0
 [ACTIVE_TAB]
-Value=Page_Def.h
+Value=HAL_PIC32.h
 [USE_EEPROM]
 Value=0
 [USE_HEAP]
@@ -20,10 +20,10 @@ Count=7
 File0=MyProjectff.c
 File1=tahoma_24pt_Font.c
 File2=tahoma_30pt_Font.c
-File3=..\..\arduino.c
-File4=..\..\MEGEG.c
-File5=resoures.c
-File6=rotary_b_click.c
+File3=resoures.c
+File4=rotary_b_click.c
+File5=..\..\desk_top\arduino.c
+File6=..\..\desk_top\MEGEG.c
 [BINARIES]
 Count=0
 [IMAGES]
@@ -33,8 +33,8 @@ ActiveImageIndex=-1
 Count=4
 File0=Page_Def.h
 File1=ssd1963_8bit_library.h
-File2=MyProjectff.c
-File3=HAL_PIC32.h
+File2=HAL_PIC32.h
+File3=MyProjectff.c
 [EEPROM]
 Count=0
 [ACTIVE_COMMENTS_FILES]
@@ -42,12 +42,13 @@ Count=0
 [OTHER_FILES]
 Count=0
 [SEARCH_PATH]
-Count=5
+Count=6
 Path0=C:\Users\Public\Documents\Mikroelektronika\mikroC PRO for PIC32\Defs\
 Path1=C:\Users\Public\Documents\Mikroelektronika\mikroC PRO for PIC32\Uses\
 Path2=C:\Users\ahmed\Desktop\incubator\tft display\
 Path3=C:\Users\ahmed\Desktop\desk_top\panels\
 Path4=C:\Users\ahmed\Desktop\
+Path5=C:\Users\ahmed\Desktop\desk_top\
 [HEADER_PATH]
 Count=2
 Path0=F:\desk\wrk\TFT 5 inch\vtft test 18f pages 2-4-1018\Test_4-2018\
