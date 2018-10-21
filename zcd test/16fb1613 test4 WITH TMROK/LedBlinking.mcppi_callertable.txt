@@ -1,0 +1,5 @@
+main
+	__CC2DW
+	zcd_initialize
+	InitTimer0
+interrupt

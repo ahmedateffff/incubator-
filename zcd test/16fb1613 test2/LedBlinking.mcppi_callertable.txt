@@ -1,0 +1,3 @@
+main
+	zcd_initialize
+interrupt
